@@ -1,0 +1,173 @@
+/* ----------------------------------------------------------------- */
+/* --------------------------------------------TARJETAS DE ITEMS --- */
+/* ----------------------------------------------------------------- */
+.item{
+    margin-bottom: 10px;
+    padding-bottom: 5%;
+    &:hover{
+        transform: scale(1.02, 1.02);
+    }
+    .item_innerBox{
+        position: relative;
+        .icons{
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            top: 3%;
+            right: 15px;
+            transition: all 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2 ease-in-out;
+            opacity: 1;
+            a{
+                height: 40px;
+                width: 40px;
+                display:flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                background: #fff;
+                color: black;
+                &:active{
+                    color: #8B9E70;
+                }              
+            }        
+        }
+        .saleTag{
+            .badge{
+                background: #000;
+                font-size: 12px;
+                padding: 5px 14px;
+                top: 0;
+                position: absolute;
+                &:before{
+                    border-width: 10px 0 0 10px;
+                    border-color: transparent transparent transparent #000;
+                    content: "";
+                    position: absolute;
+                    right: -8px;
+                    width: 0;
+                    bottom: 0;
+                    border-style: solid
+                }
+                &:after{
+                    border-width: 10px 8px 0 10px;
+                    border-color:#000 transparent transparent;
+                    content: "";
+                    position: absolute;
+                    right: -8px;
+                    width: 0;
+                    top: 0;
+                    border-style: solid
+                }  
+            }
+        }
+        img{
+            box-shadow: 0 33px 61px -29px rgb(0 0 0 /26%);
+            height: 100%;
+            width: 100%;
+            object-fit: cover; 
+        }
+        .cart-btn{
+            position: absolute;
+            bottom: 0px;
+            text-align: center;
+            right: 0%;
+            width: 100%;
+            opacity: 1;
+            color: #000;
+            transition: all 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2 ease-in-out;
+            &:hover{
+                background: rgb(212, 210, 210)!important;
+            }
+            .fa-cart-shopping#articles{
+                color: #000;
+            }
+        }
+
+    }
+    .item_info{
+        padding-bottom: 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .item_name{
+            font-size: medium;
+            font-family: 'Heebo', sans-serif;
+            font-weight: 500;
+            color: #464646;
+            p{
+                margin: 0;
+            }
+        }
+        .item_price{
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            font-size: small;
+            &.onSale{
+                #precioOriginal{
+                    font-size:smaller;
+                    text-decoration: line-through;
+                    color: #8B9E70;
+                }                    
+            }
+        }
+    }
+}
+.sinStock{
+    background-color: rgba(165, 118, 118, 0.836) !important;
+}
+
+/* ----------------------------------------------------------------- */
+/* -------------------------------------------------------RESPONSIVE */
+/* ----------------------------------------------------------------- */
+@media (min-width:768px) or (orientation: landscape) {
+    .item_innerBox{
+        .icons{
+            opacity: 0 !important;
+        }
+        .cart-btn{
+            opacity: 0 !important;
+            bottom: 10px !important;
+            left: 25%;
+            width: 50% !important;
+        }
+        &:hover{
+            box-shadow: 0 33px 61px -29px rgb(0 0 0 /50%);
+            .cart-btn{
+                opacity: 1 !important;
+            }
+            .icons{
+                top: 3%;
+                opacity: 1 !important;
+                cursor: pointer;
+                a{
+                    height: 30px;
+                    width: 30px;
+                    &:hover{
+                        .fa-heart{
+                            transform: scale(1.1, 1.1);  
+                        }
+                        .fa-eye{
+                            transform: scale(1.1, 1.1);  
+                        }
+                    }           
+                }
+            }
+        }
+    }
+    .item_info{
+        .item_name{
+            font-size: large !important;
+        }
+        .item_price{
+            font-size: medium !important;
+            &.onSale{
+                #precioOriginal{
+                    font-size:small;
+                }                    
+            }
+        }
+    }
+}

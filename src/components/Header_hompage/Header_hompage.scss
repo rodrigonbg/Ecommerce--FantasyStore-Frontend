@@ -1,0 +1,187 @@
+@import "../../styles/variables";
+
+.header__gridContainer{
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 100%;
+    grid-template-areas:
+        "headerInfo"
+        "headerImgs"
+        "headerButtons";
+}
+
+/* ----------------------------------------------------------------- */
+/* -------------------------------------------INFORMACION DEL HEADER */
+/* ----------------------------------------------------------------- */
+.header__info{
+    background-color: $primary-color;
+    grid-area: headerInfo;
+    height: 300px;
+    width:100%;
+    margin-top: 50px;
+    padding: 5% 5%;
+}
+
+.header__info__tittle{
+    animation: Aparecer-desde-izquierda 0.5s ease-in;
+    color: white;
+    text-align: center;
+    font-family: $font-family1;
+    font-weight: 400;
+    font-size: 250%;
+    line-height: 100%;
+}
+
+.header__info__p {
+    animation: Aparecer-desde-izquierda 0.5s ease-in;
+    color: white;
+    text-align: center;
+    font-size: 120%;
+    padding-top: 1%;
+}
+
+/* ----------------------------------------------------------------- */
+/* -----------------------------------IMAGENES DE PORTADA DEL HEADER */
+/* ----------------------------------------------------------------- */
+.header__imgs{
+    grid-area: headerImgs;
+    padding: 0%;
+    position: absolute;
+    top: 285px;
+    .imgs{
+        width: 100%;
+        padding: 0 10%;
+    }
+}
+
+/* ----------------------------------------------------------------- */
+/* ----------------------------------------BOTONES BUY NOW Y EXPLORE */
+/* ----------------------------------------------------------------- */
+.header__buttons{
+    margin-top: 20%;
+    grid-area: headerButtons;
+    padding: 1% 5%;
+}
+
+.header__buyNowButton{
+    display: inline-block;
+    width: 100%;
+    padding: 15px 0;
+    margin: 1% 0;
+    border-radius: 30px;
+    border:solid 1px #424b37;
+    background-color: $btn-darkGreen;
+    color: white;
+    font-weight:600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    &:hover{
+        background-color: $btn-darkGreen-hoven;
+    }
+}
+
+.header__ExploreButton{
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    padding: 15px 0;
+    margin: 1% 0;
+    border-radius: 30px;
+    border:solid 1px #424b37;
+    color: $btn-darkGreen;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight:600;
+    &:hover{
+        background-color: $btn-lightGreen-hoven;
+        color: #fff;
+    }
+}
+
+/* ----------------------------------------------------------------- */
+/* --------------------------------------------RESPONSIVE DEL HEADER */
+/* ----------------------------------------------------------------- */
+@media (min-width:768px) or (orientation: landscape) {
+
+    .header__imgs{
+        top: 245px;
+    }
+}
+
+@media (min-width:980px) {
+
+    /* ----------------------REORDENO EL GRID DEL HEADER*/
+    .header__gridContainer{
+        background-color: $primary-color;
+        grid-template-rows: auto auto;
+        grid-template-columns: 1.2fr 2fr;
+        grid-template-areas: 
+            "headerInfo     headerImgs"
+            "headerButtons  headerImgs";
+        margin-bottom: 150px;
+        row-gap: 2%;
+    }
+
+    /* --------------AJUSTAR PARTE FIJA DEL HEADER*/
+    .header__fixed{
+        padding: 5px 10% 5px 10%;
+
+    }
+
+    /* ------------------AJUSTAR TEXTO DEL HEADER*/
+    .header__info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: end;
+        margin-top: 108px;
+        padding: 2% 0;
+        padding-left: 10vw;
+        height: 70%;
+    }
+
+    .header__info__tittle{
+        text-align: left;
+
+    }
+    .header__info__p {
+        text-align: left;
+        font-size: 120%;
+    }
+
+    /* --------------AJUSTAR IMAGENES DEL HEADER*/
+    .header__imgs{
+        right: 10vw;
+        width: 50%;
+        .imgs{
+            padding: 0;
+        }
+    }
+
+    /* ------------AJUSTAR BOTONES BUYNOW Y EXPLORE*/
+    .header__buttons{
+        margin-top: 3%;
+        padding: 1% 0 10% 0;
+        padding-left: 10vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+    }
+    
+    .header__ExploreButton{
+        width: 70%;
+        margin: 1% 0;
+        margin-left: 5%;
+        border:solid 1px #fff;
+        color: #fff;
+    }
+    
+    /* -------------------------BORDE DEL HEADER*/
+    .header__waves{
+    padding-top: 0;
+
+    }
+}

@@ -1,0 +1,59 @@
+@import "../../styles/variables";
+
+    .container{
+        section{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            justify-content: space-between;
+            div#info{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0 5%;
+                padding-bottom: 15px;
+                color: rgb(37, 37, 37);
+                h1{
+                    font-size: 600%;
+                }
+                p{
+                    padding: 2%;
+                    color: rgb(85, 85, 85);
+                    text-align: justify;
+                }
+            }
+            div#ilustracion{
+                height: 30vh;
+                width: 100vw;
+                img{
+                    bottom: 0;
+                    margin: 0;
+                    max-width: 100vw;
+                    height: 30vh;
+                    width: 100vw;
+                    padding-bottom: 15px
+                }
+
+            }
+        }
+
+        .link{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $primary-color;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 2% 0 ;
+            width: 100%;
+            border-radius: 40px;
+            &:hover{
+                background-color: #788861;
+            }
+        }
+
+    }

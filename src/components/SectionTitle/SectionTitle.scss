@@ -1,0 +1,17 @@
+
+h1{
+    font: normal 400 250% "Dosis", sans-serif;
+    margin: 0 0 20px 0;
+    color: black;
+    text-align: center;
+    width: 100%;
+    padding: 5% 0 2% 0;
+}
+
+/* ---------------------------------------- RESPONSIVE */
+@media (min-width:768px) or (orientation: landscape) {
+    h1{
+        font-size: 400%;
+    }
+
+}

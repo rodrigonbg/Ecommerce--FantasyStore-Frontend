@@ -1,0 +1,31 @@
+@import "../../styles/variables";
+.cardCarritoVacio{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .mensaje{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid rgb(236, 51, 51);;
+        background-color: rgb(241, 178, 178);
+        border-radius: 30px;
+        padding: 1% 0;
+        margin: 1% 0 3% 0;
+        /* offset-x | offset-y | blur-radius | color */
+        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.471);
+        p{
+            font-size: medium;
+            font-family: $font-family2;
+            text-align: center;
+            padding: 0 5px;
+            font-weight: 800;
+        }
+        img{
+            width: 100px;
+        }
+    }
+}

@@ -1,0 +1,40 @@
+/* ------------------- ESTILOS EN DROPDOWN MENU -------------- */
+.dropdownMenu_loginBtn{
+    padding: 1%;
+    width: 80%;
+    border-radius: 15px;
+    margin: 5% 10%;
+    border: solid 1px #424b37;
+    background-color: #424b37;
+    color: white;
+    &:hover{
+      background-color: #3a422f;
+      color: white; 
+    }
+  }
+
+    
+/* ------------------- ESTILOS EN NAVBAR FIJO -------------- */
+.loginButton {
+    padding: 5px 10px;
+    border-radius: 30px;
+    border: solid 1px #424b37;
+    background-color: #424b37;
+    color: white;
+    font-family: "Heebo", sans-serif;
+    font-size: small;
+    text-decoration: none;
+    cursor: pointer;
+    display: none;
+    &:hover{
+      background-color: #3a422f;      
+    }
+  }
+
+  @media (min-width:980px) {
+  
+    /* -------------MOSTRAR BOTON DE LOGIN*/
+    .loginButton{
+      display: block;
+    }
+  }

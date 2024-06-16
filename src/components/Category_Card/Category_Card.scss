@@ -1,0 +1,27 @@
+.Link{
+    text-decoration: none;
+    display:inline-flex;
+    margin: 0;
+}
+
+.category{
+    padding-bottom: 1%;
+    width: 400px;
+    margin: 2%;
+    cursor: pointer;    
+    color: #8B9E70;
+    &:hover{
+        background-color: #8B9E70;
+        color: #fff;
+    }
+}
+
+.category_tittle{
+    text-align: center;
+    padding: 1%;
+    font: medium;
+}
+
+.category_img{
+    width: 100%;
+}

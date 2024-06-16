@@ -1,0 +1,52 @@
+@import "../../styles/variables";
+
+.cantidadProdCarrito{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .btn{
+        display: flex;
+        align-items: center;
+        padding: 0%;
+        padding: 10%;
+        border-radius: 50px;
+        width: 50px;
+        height: 50px;
+        border-color: $primary-color;
+        font-size: medium;
+        &:active{
+            background-color: $primary-color;
+            color: white;
+        }
+    }
+    span{
+        font-size: medium;
+        margin: 8%;
+    }
+}
+
+
+
+@media (min-width:980px) { 
+    .cantidadProdCarrito{
+        width: 14%;
+        .btn{
+            display: flex;
+            align-items: center;
+            padding: 0%;
+            padding: 20%;
+            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            border-color: $primary-color;
+            font-size: medium;
+        }
+        span{
+            font-size: medium;
+            margin: 6%;
+        }
+    }
+
+
+}

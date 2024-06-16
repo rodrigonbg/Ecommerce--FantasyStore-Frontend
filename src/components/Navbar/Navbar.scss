@@ -1,0 +1,100 @@
+/* ---------------------------------------------------------------- */
+/* ------------------------------------------------- NAVBAR FIJO -- */
+/* ---------------------------------------------------------------- */
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  width: 100vw;
+  position: fixed;
+  z-index: 10;
+  background-color: #8B9E70;
+  padding: 10px 5% 5px 5%;
+}
+
+.navbar_logo{
+  min-width: 150px;
+  max-width:60%;
+}
+
+.navbarTools {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+}
+  
+/* ----------------------------BARRA DE NAVEGACION */
+.navbar_itemsContainer {
+  width: 70%;
+  right: 1%;
+  padding: 1%;
+  display: none;
+  div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Heebo", sans-serif;
+    font-size: small;
+    margin: 2px;
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* -------------------BOTON DE BUSCAR */
+.SearchBar_Button {
+  font-family: "Heebo", sans-serif;
+  font-weight: 600;
+  font-size: small;
+  padding: 5px 10px;
+  color: white;
+  border: solid 1px white;
+  border-radius: 20px;
+  background-color: rgba(209, 205, 205, 0.685);
+  cursor: pointer;
+  display: none;
+  order: 6;
+  &:hover{
+    background-color: rgba(167, 161, 161, 0.685);    
+  }
+}
+
+/* -------------------------ICONOS MENU*/
+.fa-bars {
+  color: #fff;
+  padding: 0 2%;
+}
+  
+
+
+
+
+
+
+/* -------------------- DISEÑO RESPONIVE -------------------- */
+@media (min-width:980px) {
+  
+  .navbarContainer {
+    padding: 10px 10% 5px 10%;
+  }
+
+  /* -------------MOSTRAR NAV*/
+  .navbar_itemsContainer{
+    display: block;
+  }
+
+  /* -------------MOSTRAR BOTON DE BUSCAR*/
+  .SearchBar_Button{
+    display: block;
+  }
+}

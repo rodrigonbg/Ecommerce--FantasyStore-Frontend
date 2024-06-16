@@ -1,0 +1,117 @@
+@import "../../styles/variables";
+
+
+.cart_Container{
+    padding-bottom: 10%;
+}
+
+/* lista de productos en carrito */
+.tablaCarrito{
+    font-family:$font-family2;
+    width:100%;
+    font-size: smaller;
+    .cabezaLista{
+        display: flex;
+        justify-content: space-between;
+        padding:5px 0;
+        border-bottom: 2px solid $primary-color;
+        p{
+            display: flex;
+            justify-content: center;
+            width: 14%;
+            strong{
+                font-size: small;
+            }
+        }
+        display: none;       
+    }
+
+    .pieLista{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        text-align: center;
+        margin: 20px 0;
+        font-size: medium;
+        .btnVaciarCarrito{
+            border: none;
+            border: solid 1px $primary-color;
+            width: 100%;
+            padding: 5px 0;
+            margin: 1% 0;
+            border-radius: 30px;
+            background-color: white;
+            color: $primary-color;
+            font-weight:600;
+            cursor: pointer;
+            &:hover{
+                background-color: $primary-color;
+                color: white;
+            }   
+        }
+    }
+}
+
+
+/* Botones */
+.botonesCarrito{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    .Link{
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        width:40%;
+        border-radius: 30px;
+        padding: 15px 0;
+        margin: 1% 0;
+        border-radius: 30px;
+        background-color: $primary-color;
+        color: white;
+        font-weight:600;
+        font-size: medium;
+        cursor: pointer;
+        &:hover{
+            background-color: $btn-darkGreen-hoven;
+        }     
+    }
+}
+
+
+
+/* ----------------------------------------------------------------- */
+/* ------------------------------------------ RESPONSIVE DEL CARRITO */
+/* ----------------------------------------------------------------- */
+
+@media (min-width:980px) { 
+
+    .tablaCarrito{
+        .cabezaLista{
+            display: flex;
+            p{
+                strong{
+                    font-size:x-large;
+                }
+            }        
+        }
+    
+        .pieLista{
+            justify-content: space-between;
+            flex-wrap:nowrap;
+            font-size: x-large;
+            .btnVaciarCarrito{
+                width: 20%;
+            }
+        }
+    }
+    
+    .botonesCarrito{
+        .Link{
+            width:30%;
+        }
+    }
+
+
+}

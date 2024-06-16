@@ -1,0 +1,262 @@
+@import "../../styles/variables";
+
+.checkout_container{
+
+    .comprado{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        p{
+            text-align: center;
+            font-family: $font-family2;
+            font-size: x-large;
+            width: 100%;
+            span{
+                font-size: x-large;
+                color: $primary-color;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .prodCarrito{
+        padding: 2% 0;
+        border-bottom: solid 1px $primary-color;
+        display: flex;
+        picture{
+            width: 40%;
+            margin: 0;
+            position: relative;
+            .imgCarrito{
+                width: 100%;
+            } 
+            span#saleTag{
+                position: absolute;
+                font-size: medium;
+                top: 0;
+                left: 0%;
+                background-color: black;
+                color: white;
+                border-radius: 15px;
+                padding: 2px;
+            }
+        }
+        article{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 60%;
+            .nombreProdCarrito::before{
+                content: 'Nombre: ';
+                font-weight: 600;
+            }
+            .precioProdCarrito::before{
+                content: 'Precio: ';
+                font-weight: 600;
+            }
+            .subtotalProdCarrito::before{
+                content: 'Subtotal: ';
+                font-weight: 600;
+            }
+            p{
+                text-align: center;
+                font-size:large;
+                span#precioOriginal{
+                    font-size:medium;
+                    text-decoration: line-through;
+                    color: $primary-color;
+                }
+            }
+        }  
+    }
+
+
+    .info{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: solid 1px $primary-color;
+
+        p{
+            font-weight: 700;
+            margin: 5px 0;
+        }
+        .total{
+            color: $primary-color;
+        }
+
+    }
+
+    .linkBack{
+        display: flex;
+        justify-content: end;
+        text-align: center;
+        margin-top: 10px;
+        .link{
+            text-decoration: none;
+            padding: 3px 5px;
+            margin-left: 20px;
+            background-color: $primary-color;
+            border-radius: 30px;
+            color: white;
+            &:hover{
+                background-color: $btn-lightGreen-hoven;
+            }
+        }
+        p{
+            margin: 0;
+        }
+    }
+
+    .form{
+        margin-top: 50px;
+        .msg{
+            width: 100%;
+            text-align: center;
+            font-size: x-large;
+            color: $primary-color;
+            font-family: $font-family2;
+            font-weight: 600;
+        }
+    }
+
+    .buton{
+        text-decoration: none;
+        text-align: center;
+        border: none;
+        background-color: $primary-color !important;
+        border-color: $primary-color;
+        margin: 10px 0;
+        border-radius: 30px !important;
+        padding: 5px 0;
+        width: 100%;
+        color: white;
+        &:hover{
+            background-color: $btn-lightGreen-hoven !important;
+        }
+    }
+}
+
+
+
+@media (min-width:980px) { 
+    .checkout_container{
+        .comprado{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            p{
+                text-align: center;
+                font-family: $font-family2;
+                font-size: x-large;
+                width: 100%;
+                span{
+                    font-size: x-large;
+                    color: $primary-color;
+                    font-weight: 600;
+                }
+            }
+        }
+    
+        .prodCarrito{
+            padding: 0.5% 0;
+            border-bottom: solid 1px $primary-color;
+            display: flex;
+            picture{
+                width: 14%;
+                margin: 0;
+                position: relative;
+                .imgCarrito{
+                    width: 100%;
+                } 
+                span#saleTag{
+                    position: absolute;
+                    font-size: medium;
+                    top: 0;
+                    left: 0%;
+                    background-color: black;
+                    color: white;
+                    border-radius: 15px;
+                    padding: 2px;
+                }
+            }
+            article{
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+                .nombreProdCarrito::before{
+                    content: '';
+                }
+                .precioProdCarrito::before{
+                    content: '';
+                }
+                .subtotalProdCarrito::before{
+                    content: '';
+                }
+                .subtotalProdCarrito{
+                    margin-right: 4%;
+                }
+                p{
+                    margin: 0;
+                    width: 14%;
+                    font-size:x-large;
+                    span#precioOriginal{
+                        font-size:large;
+                    }
+                }
+            }  
+        }
+    
+        .linkBack{
+            display: flex;
+            justify-content: end;
+            text-align: center;
+            margin-top: 10px;
+            .link{
+                text-decoration: none;
+                padding: 3px 5px;
+                margin-left: 20px;
+                background-color: $primary-color;
+                border-radius: 30px;
+                color: white;
+                &:hover{
+                    background-color: $btn-lightGreen-hoven;
+                }
+            }
+            p{
+                margin: 0;
+            }
+        }
+    
+        .form{
+            margin-top: 50px;
+            .msg{
+                width: 100%;
+                text-align: center;
+                font-size: x-large;
+                color: $primary-color;
+                font-family: $font-family2;
+                font-weight: 600;
+            }
+        }
+    
+        .buton{
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            background-color: $primary-color !important;
+            border-color: $primary-color;
+            margin: 10px 0;
+            border-radius: 30px !important;
+            padding: 5px 0;
+            width: 100%;
+            color: white;
+            &:hover{
+                background-color: $btn-lightGreen-hoven !important;
+            }
+        }
+    }
+}

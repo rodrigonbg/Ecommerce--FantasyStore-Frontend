@@ -1,0 +1,33 @@
+.SearchBar {
+    width: 40%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-family: "Heebo", sans-serif;
+    font-size: small;
+    right: 0;
+    background-color: rgba(209, 205, 205, 0.685);
+    border: solid 1px white;
+    border-radius: 20px;
+    transition: all 0.2s ease-in;
+  }
+  .SearchBar:hover {
+    background-color: rgba(167, 161, 161, 0.685);
+  }
+  .SearchBar:focus {
+    width: 60%;
+  }
+
+
+  /* -------------------- DISEÑO RESPONIVE -------------------- */
+@media (min-width:980px) {
+  .SearchBar{
+    width: 85%;
+    order: 5;
+    margin-right: 2%;
+    padding: 5px 0;
+    &:focus{
+      width: 85%;
+    }
+  }
+}

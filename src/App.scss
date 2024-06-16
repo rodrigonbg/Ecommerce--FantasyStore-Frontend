@@ -1,0 +1,26 @@
+header{
+    .waves_Header{
+        width: 100vw;
+        padding-top: 60px;
+    }
+}
+
+main{
+    margin: 0 5vw 10% 5vw;
+    padding-top: 0;
+}
+
+
+
+/* RESPONSIVE DEL MAIN */
+@media (min-width:980px) {
+
+    header{
+        .waves_Header{
+            padding-top: 10px;
+        }
+    }
+    main{
+        margin: 0 10vw 10% 10vw;
+    }
+}

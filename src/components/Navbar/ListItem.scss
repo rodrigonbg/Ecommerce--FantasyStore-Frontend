@@ -1,0 +1,25 @@
+
+.navbar_item {
+  padding: 0 2%;
+  color: white;
+  font-size: small;
+  text-decoration: none;
+  &:hover{
+    color: #3a422f;
+    text-decoration: underline;   
+  }
+  &:focus{
+        color: #3a422f;
+        height: auto;
+        border-radius: 10PX;
+  }
+} 
+
+.selected {
+  color: #3a422f;
+  height: auto;
+  border-radius: 10PX;
+}
+.notSelected{
+  color: white;
+}

@@ -1,0 +1,55 @@
+@import "../styles/variables";
+
+/* ALERTAS SWAL */
+.btnConfirm{
+    background-color: white !important;
+    color: $primary-color !important;
+    border: solid 1px $primary-color !important;    
+    border-radius: 50px !important;
+    &:hover{
+        transform: scale(1.1);
+    }
+    &:focus{
+        border: solid 3px $primary-color !important; 
+        box-shadow: none !important;
+    }
+}
+.btnDeny{
+    background-color: $primary-color !important ;
+    color: white !important;
+    border-radius: 50px !important;
+    &:hover{
+        transform: scale(1.1);
+    }
+    &:focus{
+        border: solid 3px $primary-color !important; 
+        box-shadow: none !important;
+    }
+}
+
+.iconQuestion{
+    color: $primary-color !important;
+    border-color: $primary-color !important;
+}
+
+.titleText{
+    font-family: $font-family2;
+}
+
+
+/* ALERTAS TOASTIFY */
+.mensajeToastify{
+    border-radius: 50px !important;
+} 
+
+.agregado{
+    background:linear-gradient(to right, $primary-color, #C2C2C2) !important;
+}
+
+.quitado{
+    background:linear-gradient(to right, rgb(140, 50, 50), #C2C2C2) !important;
+}
+
+.aviso{
+    background:linear-gradient(to right, rgb(49, 49, 49), #C2C2C2) !important;
+}

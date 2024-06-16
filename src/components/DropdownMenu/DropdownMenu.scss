@@ -1,0 +1,47 @@
+/* -------------------------MENU DROPDOWN */
+.dropdownMenu_Icon {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+  &:hover{
+    background: #3a422f;
+  }
+  &:focus{
+    background: transparent;
+  }
+}
+  
+.dropdownMenu_Ul {
+  background-color: #768561;
+  width: 50%;
+  text-align: center;
+  border: solid 1px #424b37;
+  a{
+    text-decoration: none;
+  }
+}
+ 
+ /* ----------------BOTONES DEL DROPDOWN */
+.dropdownMenu_linkBtn {
+  padding: 1%;
+  width: 70%;
+  border-radius: 15px;
+  margin: 1% 15%;
+  color: #fff;
+  &.selected {
+    color: #3a422f;
+  }
+  &:hover{
+    background-color: #3a422f;
+    color: #fff !important;   
+  }
+}
+
+/* -------------------- DISEÑO RESPONIVE -------------------- */
+@media (min-width:980px) {
+    /* -------------OCULTAR BOTON DE MENU*/
+    i#menu{
+      display: none;
+    }
+}

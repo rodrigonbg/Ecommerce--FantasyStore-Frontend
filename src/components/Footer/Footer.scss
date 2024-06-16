@@ -1,0 +1,119 @@
+@import "../../styles/variables";
+
+
+.footer_Container{
+    background-color: $backround-footer;
+    padding: 2% 5%;
+    text-align: center;
+    font-size: small;
+    font-family: "Heebo", sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+        "payments       payments"
+        "footerInfo     footerInfo"
+        "socialNetworks newsLetter";
+    align-items: stretch;
+    grid-gap: 1%;
+
+    div{
+        border: solid 1px rgb(255, 255, 255);
+        padding: 2%;
+        p{
+            span{
+                font-weight: 600;
+
+            }
+        }
+    }
+
+    .socialNetworks{
+        grid-area: socialNetworks;
+        padding: 1%;
+        border-right: solid 1px rgb(255, 255, 255);
+    }
+
+    .payments{
+        grid-area: payments;
+        width: 100%;
+        img{
+            padding: 1%; 
+        }
+    }
+
+    .info{
+        grid-area: footerInfo;
+        word-wrap: break-word;
+    }
+
+    .newsLetter{
+        grid-area: newsLetter;
+        word-wrap: break-word;
+        padding-bottom: 5%;
+    }
+}
+
+
+.tittle{
+    font:medium;
+}
+
+.redes{
+    display: block;
+    font: medium;
+    text-decoration: none;
+    color: black;
+    i{
+        padding-right: 4px;
+    }
+    &:hover{
+        color: $a-darkGreen-hoven !important;
+    }
+}
+
+/* -------------------------BORDE DEL HEADER*/
+.waves{
+    width: 100vw;
+}
+
+
+
+
+/* ----------------------------------------------------------------- */
+/* --------------------------------------------RESPONSIVE DEL FOOTER */
+/* ----------------------------------------------------------------- */
+@media (min-width:768px) or (orientation: landscape) {
+    /* --------------------------REORDENAR GRID DEL FOOTER*/
+    .footer_Container{
+        padding: 2% 10%;
+        font-size: medium;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "socialNetworks     payments    footerInfo     newsLetter";
+        align-items: stretch;
+        grid-gap: 1%;
+
+            
+    /* --------------------------ESTILOS DEL FOOTER*/    
+        div{
+            border: none;
+            border-right: solid 1px rgb(255, 255, 255);   
+        }
+
+        .newsLetter{
+            border: none;
+        }
+
+        .tittle{
+            font:medium;
+        }
+    
+        .redes{
+            font: small;
+        }
+
+    }
+
+}
