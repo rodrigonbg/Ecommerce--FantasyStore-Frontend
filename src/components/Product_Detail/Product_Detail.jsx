@@ -7,11 +7,11 @@ import { CartContext } from '../../context/CartContext'
 import { useContext } from 'react'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
 
-const Product_Detail = ({id, nombre, descripcion, categoria, img, precio, onSale, descuento, stock, alt }) => {
+const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt, status, code, owner }) => {
 
-  const item = {id, nombre, descripcion, categoria, img, precio, onSale, descuento, stock, alt }
+  const item = {_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt }
   const [amount, setAmount] = useState(stock < 1? 0 : 1)/* Cantidad de unidades a agregar al carrito */
-  const onSalePrice = (((100-descuento)*precio)/100);
+  const onSalePrice = (((100-descuento)*price)/100);
 
   const {addItem} = useContext(CartContext)
 
@@ -31,7 +31,7 @@ const Product_Detail = ({id, nombre, descripcion, categoria, img, precio, onSale
 
 
   return (
-      <div key={id} className = 'product_Detail'>
+      <div key={_id} className = 'product_Detail'>
         <Link to="/" className="goBackLink">{/*  */}
           {' <-- Go Back'}
         </Link>
@@ -41,24 +41,26 @@ const Product_Detail = ({id, nombre, descripcion, categoria, img, precio, onSale
             <div className="saleTag" > {/* ETIQUETA DE DESCUENTO */}
               {onSale? <span className="badge rounded-0"><i className="fa-solid fa-arrow-down"></i>{descuento}%</span>: <></> }
             </div>
-            <img src={img} alt={alt}/>
+            <img src={thumbnail[0]} alt={alt}/>
           </picture>
 
           <div className=''>
             <section className="infoSection">    
-              <SectionTitleH2 className={'productName'} text={nombre}/>  
+              <SectionTitleH2 className={'productName'} text={title}/>  
               <p className='productDescription'>{descripcion}</p>
               <p className='productCategory'>Categoría: {categoria}</p> 
+              <p className='productCategory'>Vendedor: {owner === 'admin'? 'Fantasy Store' : owner}</p> 
+              <p className='productCategory'>Código del producto: {code}</p> 
             </section>
 
             <section className='buttonSection'>
               <div className='precios' > 
                 <p>Precio por unidad: </p>
-                <strong>${onSale? <>{onSalePrice} <span className='oldPrice'>{precio}</span>  </>: precio }</strong>
+                <strong>${onSale? <>{onSalePrice} <span className='oldPrice'>{price}</span>  </>: price }</strong>
               </div>
               <div className='precios'>
                 <p>Precio en total: </p>
-                <strong>${onSale? (onSalePrice * amount).toFixed(2) : precio * amount }</strong>
+                <strong>${onSale? (onSalePrice * amount).toFixed(2) : price * amount }</strong>
               </div>  
               
               {stock >0 &&

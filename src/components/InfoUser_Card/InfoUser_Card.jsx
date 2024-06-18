@@ -1,12 +1,14 @@
 import { UserContext } from '../../context/UserContext/UserContext'
 import { useContext } from 'react'
+import { useEffect } from 'react'
 
 import './InfoUser_Card.scss'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
 
 const InfoUser_Card = () => {
 
-    const {id, nombre, apellido, telefono, correo, fechaNac} = useContext(UserContext)
+    const {id, nombre, apellido, telefono, correo, fechaNac, edad, lastConnection, cartID, rol, documents = []} = useContext(UserContext)
+    const {validActiveSession} = useContext(UserContext)
 
     return (
         <div className='infoUser_card'>
@@ -14,9 +16,13 @@ const InfoUser_Card = () => {
             <hr />
             <p>ID del usuario registrado: <span>{id}</span></p>
             <p>Nombre: <span>{nombre} {apellido}</span></p>
-            <p>Telefono: <span>{telefono}</span></p>
+            {/* <p>Telefono: <span>{telefono}</span></p> */}
+            <p>Edad : <span>{edad}</span></p>
             <p>Correo Electronico: <span>{correo}</span></p>
-            <p>Fecha de nacimiento: <span>{fechaNac}</span></p>
+            <p>Posee documentos cargados: <span>{documents.length > 0? 'SI':'NO'}</span></p>
+            <p>Rol: <span>{rol}</span></p>
+            <p>Última conexión: <span>{lastConnection}</span></p>
+            <p>Carrito asignado: <span>{cartID}</span></p>
         </div>
 
     )

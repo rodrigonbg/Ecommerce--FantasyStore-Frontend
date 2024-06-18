@@ -21,6 +21,7 @@ import Header_hompage from "./components/Header_hompage/Header_hompage";
 import Checkout from "./pages/Checkout/Checkout";
 import { UserContextProvider } from "./context/UserContext/UserContext";
 import Page404 from "./pages/404/Page404";
+import UploadProduct from "./components/UploadProduct/UploadProduct.jsx";
 
 function App() {
 
@@ -34,6 +35,8 @@ function App() {
             <Route path={'/'} element={ <Header_hompage/>}/>
             <Route path={'/categories'} element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> }/>
             <Route path={'/categories/:idCat'} element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> }/>
+            <Route path='/premium' element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> } />
+            <Route path='/admin' element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> } />
             <Route path={'/contact'} element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> }/>
             <Route path={'/about_us'} element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> }/>
             <Route path={'/cart'} element={<img className='waves_Header' src={wavesOfHeader} alt="Borde del header" /> }/>
@@ -51,6 +54,8 @@ function App() {
             <Route path='/' element={<HomePage/>} />
             <Route path='/categories' element={<Categories/>} />
             <Route path='/categories/:idCat' element={<Category/>} />
+            <Route path='/premium' element={<UploadProduct/>} />
+            <Route path='/admin' element={<UploadProduct/>} />
             <Route path='/contact' element={<Contact/>} />
             <Route path='/about_us' element={<AboutUs/>} />
             <Route path='/cart' element={<Cart/>} />

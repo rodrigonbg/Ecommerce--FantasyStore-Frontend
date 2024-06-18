@@ -17,34 +17,40 @@ const getUsers = async () =>{
 //Registro con el middleware de passport LOCAL--> POST /api/users
 const LocalRegister = async (user) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/users`, {
+        const response = await fetch(`${baseURL}${PORT}/api/users/front`, {
+                credentials: 'include',
                 method: 'POST',
                 headers:{
                         'Content-Type': 'application/json',
                         },
                 body: JSON.stringify(user),
         })
-            .then(data =>  data.json())
-            .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
-        return response;
+        const data = await response.json();
+
+        return data
+
     } catch (error) {
-        throw error
+        return error
     }
 }
 
-//Login con el middleware de passport LOCAL--> POST /api/sessions/login
+//Login con el middleware de passport LOCAL--> POST /api/sessions/loginFront
 const LocalLogin = async (user) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/sessions/login`, {
+        const response = await fetch(`${baseURL}${PORT}/api/sessions/loginFront`, {
+                credentials: 'include',
                 method: 'POST',
                 headers:{
                         'Content-Type': 'application/json',
                         },
                 body: JSON.stringify(user),
         })
-            .then(data =>  data.json())
-            .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
-        return response;
+        
+        if (!response.ok) {
+            return response.json();
+        }
+
+        return {status:200, user:response.json()}
     } catch (error) {
         throw error
     }
@@ -56,19 +62,28 @@ const GithubRegisterLogin = async () =>{
         const response = await fetch(`${baseURL}${PORT}/api/sessions/github`)
             .then(data =>  data.json())
             .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
-        return response;
+        
+        if (!response.ok) {
+            throw new Error(`Hubo un problema con la solicitud fetch al iniciar sesion : ${response.statusText}`);
+        }
+        return response.json();
     } catch (error) {
         throw error
     }
 }
 
-//logout con local passport--> GET /api/sessions/github
+//logout con local passport--> GET /api/sessions/logoutFront
 const logout = async () =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/sessions/logout`)
-            .then(data =>  data.json())
-            .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
-        return response;
+        const response = await fetch(`${baseURL}${PORT}/api/sessions/logoutFront`,{
+            credentials: 'include',
+        })
+        console.log(response)
+        if (!response.ok) {
+            return (`Hubo un problema con la solicitud fetch al cierre de sesion`);
+        }
+
+        return response.text();;
     } catch (error) {
         throw error
     }
@@ -174,9 +189,26 @@ const changeUserRol = async (uid) =>{
     }
 }
 
+//Validar session --> GET  /api/session/valid
+const validSession = async () =>{
+    try {
+        const response = await fetch(`${baseURL}${PORT}/api/sessions/valid`,{
+            credentials: 'include'
+        })
+
+        if(response.ok){
+            return true
+        }
+
+        return false;
+    } catch (error) {
+        throw error
+    }
+}
 
 
-export default {
+
+export {
     getUsers,
     LocalRegister,
     LocalLogin,
@@ -187,5 +219,6 @@ export default {
     uploadUserDocuments,
     deleteUserByID,
     deleteInactiveUsers,
-    changeUserRol
+    changeUserRol,
+    validSession
 }

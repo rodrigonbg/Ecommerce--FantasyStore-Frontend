@@ -24,10 +24,15 @@ const getProducts = async (idCategoria) =>{
 //Traer un producto en particular--> GET /api/products/:pid
 const getProductByID = async (pid) =>{
   try {
-    const prod = await fetch(`${baseURL}${PORT}/api/products/:pid`)
-      .then(data =>  data.json())
-      .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
+    const response = await fetch(`${baseURL}${PORT}/api/products/${pid}`);
+
+    if (!response.ok) {
+      throw new Error(`Hubo un problema con la solicitud fetch al solicitar un producto por ID : ${response.statusText}`);
+    }
+    
+    const prod = await response.json();
     return prod;
+
   } catch (error) {
     throw error
   }
@@ -37,14 +42,11 @@ const getProductByID = async (pid) =>{
 const postNewProductAdmin = async (product) =>{
   try {
     const response = await fetch(`${baseURL}${PORT}/api/products/admin`, {
+          credentials: 'include',
           method: 'POST',
-          headers:{
-                    'Content-Type': 'application/json',
-                  },
-          body: JSON.stringify(product),
+          body: product,
     })
-      .then(data =>  data.json())
-      .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
+
     return response;
   } catch (error) {
     throw error
@@ -55,15 +57,13 @@ const postNewProductAdmin = async (product) =>{
 const postNewProductPremium = async (product) =>{
   try {
     const response = await fetch(`${baseURL}${PORT}/api/products/premium`, {
+          credentials: 'include',
           method: 'POST',
-          headers:{
-                    'Content-Type': 'application/json',
-                  },
-          body: JSON.stringify(product),
+          body: product,
     })
-      .then(data =>  data.json())
-      .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
+
     return response;
+
   } catch (error) {
     throw error
   }

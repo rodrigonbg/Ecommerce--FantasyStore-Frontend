@@ -1,14 +1,14 @@
 import './SingUp_form.scss'
 import "bootstrap"
 import { useState } from 'react'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { UserContext } from '../../context/UserContext/UserContext'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
 import {Loading} from '../Loading/Loading'
 
 const SingUp_form = ({children}) => {
 
-    const {singUpUser, loadingSingUp} = useContext(UserContext)
+    const {singUpUser, loadingSingUp, validActiveSession} = useContext(UserContext)
 
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
@@ -19,6 +19,12 @@ const SingUp_form = ({children}) => {
     const [pass, setPass] = useState('')
     const [confirmacionPass, setConfirmacionPass] = useState('')
     const [error, setError] = useState(null)
+
+
+
+/*     useEffect(async ()=>{
+        await validActiveSession()
+    },[]) */
 
     const handleNombre = (value) =>{
         setNombre(value)
@@ -42,6 +48,7 @@ const SingUp_form = ({children}) => {
     }
     const handleFechaNac = (value) =>{
         setFechaNac(value)
+        console.log(value)
         setError(null)
     }
     const handlePass = (value) =>{
@@ -56,18 +63,29 @@ const SingUp_form = ({children}) => {
     const  handleForm = (e)=>{
         e.preventDefault()
         
-
         if (!nombre || !apellido || !telefono || !correo || !confirmacionCorreo || !fechaNac || !pass || !confirmacionPass ){
             setError(<p className='errorText'>Ningun campo puede quedar vacio</p>)
         }else if((nombre && apellido && telefono && correo && fechaNac && pass) && (pass === confirmacionPass) && (correo === confirmacionCorreo)){
-            const user = {
-                nombre: nombre,
-                apellido: apellido,
-                telefono: telefono,
-                correo: correo,
-                fechaNac: fechaNac,
-                contraseña: pass,
+
+            const fechaIngresada = new Date(fechaNac);
+            const fechaActual = new Date();
+            let edad = fechaActual.getFullYear() - fechaIngresada.getFullYear();
+
+            // Ajustar la diferencia si la fecha ingresada todavía no ha llegado este año
+            if (fechaActual.getMonth() < fechaIngresada.getMonth() || (fechaActual.getMonth() === fechaIngresada.getMonth() && fechaActual.getDate() < fechaIngresada.getDate())) {
+                edad--;
             }
+            
+            const user = {
+                first_name: nombre,
+                last_name: apellido,
+                email: correo,
+                age: edad,
+                password: pass,
+                repeatPass:confirmacionPass,
+                documents:[]
+            }
+
             singUpUser(user)
 
             handleNombre ('')

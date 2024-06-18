@@ -8,14 +8,7 @@ import { db } from "../../services/config"
 import ItemFullPrice_Card from "../Item_Card/ItemFullPrice_Card"
 import { Loading } from '../Loading/Loading'
 
-import {
-  getProducts, 
-  getProductByID, 
-  postNewProductAdmin, 
-  postNewProductPremium,
-  deleteProductAdmin,
-  deleteProductPremium
-} from "../../services/API/products.js"
+import {getProducts} from "../../services/API/products.js"
 
 const ItemFullPriceList_Container = () => {
 
@@ -32,7 +25,7 @@ const ItemFullPriceList_Container = () => {
     } catch (error) {          
         throw error;
     }
-}
+  }
 
   useEffect( ()=>{
     setLoading(true)

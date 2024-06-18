@@ -5,32 +5,44 @@ import { useParams } from 'react-router-dom'
 import {getDoc, doc} from "firebase/firestore" 
 import { db } from "../../services/config"
 import { Loading } from '../../components/Loading/Loading'
-
+import {getProductByID} from '../../services/API/products'
 
 const ProductDetail_Container = () => {
+
+  const [error, setError] = useState(null)
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const { idItem } = useParams();
 
   useEffect(()=>{
     setLoading(true)
-    const nuevoDoc = doc(db, 'productos', idItem)
-    getDoc(nuevoDoc)
-      .then(res => {
-        const data = res.data()
-        const nuevoProducto = {id: res.id, ...data}
-        setProduct(nuevoProducto)
-        setLoading(false)
+
+    if(!idItem){
+      setError(<p>Parametros invalidos</p>)
+    }
+
+    getProductByID(idItem)        
+      .then((res) => {
+        setProduct(res);
       })
-      .catch(e => <p>Error al encontrar el producto</p>)
+      .catch((e) => {
+          setError(<p>Error con la Base de datos</p>);
+      })
+      .finally(() => {
+          setLoading(false);   
+      });
   },[idItem])
 
   return (
     <>
     {loading? 
-    <Loading/>
-    :
-    <Product_Detail {...product} />
+      <Loading/>
+      :
+        error?
+        error
+        :
+        <Product_Detail {...product} />
+      
     }
     </>
   )

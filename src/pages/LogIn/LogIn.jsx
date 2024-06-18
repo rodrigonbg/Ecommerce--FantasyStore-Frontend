@@ -5,10 +5,19 @@ import { UserContext } from '../../context/UserContext/UserContext'
 import { useContext } from 'react'
 import InfoUser_Card from '../../components/InfoUser_Card/InfoUser_Card'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const LogIn = () => {
-
+    const {validActiveSession} = useContext(UserContext)
     const {user} = useContext(UserContext)
+
+    useEffect(()=>{
+        const valid= async()=>{
+            await validActiveSession()
+        }
+        valid()
+
+    },[])
 
     return (
         <div>

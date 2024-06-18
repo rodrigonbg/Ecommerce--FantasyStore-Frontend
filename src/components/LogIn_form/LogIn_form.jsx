@@ -9,7 +9,10 @@ import React from 'react'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
 import { Loading } from '../Loading/Loading'
 
+import {LocalLogin, GithubRegisterLogin} from '../../services/API/users'
+
 const LogIn_form = ({children}) => {
+
   const [correo, setCorreo] = useState('')
   const [pass, setPass] = useState('')
   const [error, setError] = useState(null)
@@ -26,14 +29,12 @@ const LogIn_form = ({children}) => {
   }
 
   const handleSubmit = async (e) =>{
-
     e.preventDefault()
 
     if (!correo ||  !pass){
       setError(<p className='errorText'>Ningun campo puede quedar vacio</p>)
     }else{
       await findUser(correo, pass)
-
       handleCorreo('')
       handlePass('')
     }
