@@ -2,18 +2,27 @@ import './Product_Detail.scss'
 import 'bootstrap'
 import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react'
-
 import { CartContext } from '../../context/CartContext'
 import { useContext } from 'react'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
+
+const BackendRoute = 'http://localhost:8080'
 
 const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt, status, code, owner }) => {
 
   const item = {_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt }
   const [amount, setAmount] = useState(stock < 1? 0 : 1)/* Cantidad de unidades a agregar al carrito */
   const onSalePrice = (((100-descuento)*price)/100);
-
+  
   const {addItem} = useContext(CartContext)
+  
+  const [imgs, setImgs] = useState([])/* Cantidad de unidades a agregar al carrito */
+  useEffect(()=>{
+    let fullPathImages = [];
+    thumbnail.forEach(img => { fullPathImages.push(BackendRoute+img) });
+    setImgs(fullPathImages)
+  },[])
+
 
   /* Funcion para incrementar elcontador de productos a agregar en 1  */
   const increaseAmount = () =>{
@@ -41,7 +50,7 @@ const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, o
             <div className="saleTag" > {/* ETIQUETA DE DESCUENTO */}
               {onSale? <span className="badge rounded-0"><i className="fa-solid fa-arrow-down"></i>{descuento}%</span>: <></> }
             </div>
-            <img src={thumbnail[0]} alt={alt}/>
+            <img src={imgs[0]} alt={alt}/>
           </picture>
 
           <div className=''>

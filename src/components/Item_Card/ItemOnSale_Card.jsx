@@ -8,7 +8,6 @@ import { CartContext } from '../../context/CartContext'
 
 const BackendRoute = 'http://localhost:8080'
 
-
 const ItemOnSale_Card = (prod) => {/*items en liquidación */
     const [imgs, setImgs] = useState([])
     const {addItem, removeItem , cart} = useContext(CartContext)
@@ -69,9 +68,6 @@ const ItemOnSale_Card = (prod) => {/*items en liquidación */
                     <span id="precioOriginal">${prod.precio}</span>
                 </div>
             </div> 
-            {
-            prod.owner !== 'admin'&& <p>owner:{prod.owner} </p>   
-            }
         </div>   
     )
 }/* boton del carrito con id del producto */

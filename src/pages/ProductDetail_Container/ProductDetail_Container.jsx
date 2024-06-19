@@ -7,6 +7,7 @@ import { db } from "../../services/config"
 import { Loading } from '../../components/Loading/Loading'
 import {getProductByID} from '../../services/API/products'
 
+
 const ProductDetail_Container = () => {
 
   const [error, setError] = useState(null)
