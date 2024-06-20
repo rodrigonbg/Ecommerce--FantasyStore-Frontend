@@ -3,6 +3,7 @@ import 'bootstrap'
 import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { CartContext } from '../../context/CartContext'
+import { UserContext } from '../../context/UserContext/UserContext'
 import { useContext } from 'react'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
 
@@ -10,11 +11,11 @@ const BackendRoute = 'http://localhost:8080'
 
 const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt, status, code, owner }) => {
 
-  const item = {_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt }
   const [amount, setAmount] = useState(stock < 1? 0 : 1)/* Cantidad de unidades a agregar al carrito */
   const onSalePrice = (((100-descuento)*price)/100);
   
-  const {addItem} = useContext(CartContext)
+  const {addProduct} = useContext(CartContext)
+  const {cartID} = useContext(UserContext)
   
   const [imgs, setImgs] = useState([])/* Cantidad de unidades a agregar al carrito */
   useEffect(()=>{
@@ -81,10 +82,10 @@ const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, o
               }
               <p className='stock' >Stock disponible: {stock}</p>
 
-              { stock > 0?
-              <button className='cartButton' onClick={()=>{ addItem(item, amount)}} >Agregar al carrito</button>
-              :
-              <button className='cartButton sinStock' disabled >Sin Stock</button>
+              {stock > 0?
+                <button className='cartButton' onClick={async ()=>{await addProduct(cartID, _id, amount)}} >Agregar al carrito</button>
+                :
+                <button className='cartButton sinStock' disabled >Sin Stock</button>
               }
             </section>
           </div>

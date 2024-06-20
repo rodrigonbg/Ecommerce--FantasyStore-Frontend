@@ -1,19 +1,26 @@
 import './Cart_Item.scss'
-
 import { CartContext } from '../../context/CartContext'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
+const BackendRoute = 'http://localhost:8080'
+
 
 const Cart_Item = (props) => {
+    const [imgs, setImgs] = useState([])
 
-    const {removeItem} = useContext(CartContext)
+    useEffect(()=>{
+        let fullPathImages = [];
+        props.prod.thumbnail.forEach(img => { fullPathImages.push(BackendRoute+img) });
+        setImgs(fullPathImages)
+    },[])
+
 
     let saleTag
     let precioOriginalTachado
-    let precioConDescuento = (((100-props.prod.item.descuento)*props.prod.item.precio)/100)
+    let precioConDescuento = (((100-props.prod.descuento)*props.prod.price)/100)
 
-    if (props.prod.item.onSale===true){/* creo el item dependiendo de si el producto está en loquidación o no */
-        saleTag = <span id="saleTag"><i className="fa-solid fa-arrow-down"></i>{props.prod.item.descuento}%</span>
-        precioOriginalTachado = <span id="precioOriginal">${props.prod.item.precio}</span>
+    if (props.prod.onSale===true){/* creo el item dependiendo de si el producto está en loquidación o no */
+        saleTag = <span id="saleTag"><i className="fa-solid fa-arrow-down"></i>{props.prod.descuento}%</span>
+        precioOriginalTachado = <span id="precioOriginal">${props.prod.price}</span>
     }else{
         saleTag=""
         precioOriginalTachado=""
@@ -21,14 +28,14 @@ const Cart_Item = (props) => {
     return (
         <div className="prodCarrito">
                 <picture>
-                    <img className="imgCarrito" src={props.prod.item.img} alt={props.prod.item.alt}/>
+                    <img className="imgCarrito" src={imgs[0]} alt={props.prod.alt}/>
                     {saleTag}
                 </picture>
                 <article>
-                    <p className="nombreProdCarrito">{props.prod.item.nombre}</p>
+                    <p className="nombreProdCarrito">{props.prod.title}</p>
                     <p className="precioProdCarrito">{precioOriginalTachado} ${precioConDescuento}</p>
                     {props.children[0]}
-                    <p className="subtotalProdCarrito">${precioConDescuento*props.prod.cantidad.toFixed(2)}</p>
+                    <p className="subtotalProdCarrito">${precioConDescuento*props.cantidad.toFixed(2)}</p>
                     {props.children[1]}
                 </article>
         </div>

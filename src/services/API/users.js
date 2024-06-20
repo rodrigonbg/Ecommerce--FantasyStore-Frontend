@@ -197,10 +197,10 @@ const validSession = async () =>{
         })
 
         if(response.ok){
-            return true
+            return {session:true, user: await response.json()}
         }
 
-        return false;
+        return {session:false, user:null};
     } catch (error) {
         throw error
     }

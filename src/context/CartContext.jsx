@@ -8,6 +8,8 @@ import "toastify-js/src/toastify.css"
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext/UserContext'
 
+import {getCartByID, addProductToCart, deleteProductFromCart, updateCartWithArray} from '../services/API/carts'
+
 export const CartContext = createContext({ /* el valor por defoult del context del carrito es un objeto con esta información */
     cart: localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")) : [], /* Si hay carrito en local storage lo recupero, sino array vacio */
     totalPrice: localStorage.getItem("totalPrice")? JSON.parse(localStorage.getItem("totalPrice")) : 0, /* Si hay totalPrice en local storage lo recupero, sino 0 */
@@ -35,62 +37,177 @@ export const CartContextProvider = ({children}) => {
     /* actualizo el local storage. */
     updateLocalStorage()
 
+
     /* metodos para las funcionalidades del carrito */
-    const addItem = (item, cantidad) => {
-        const existingProduct = cart.find(prod => prod.item.id === item.id)
-        
-        if(!existingProduct){ /* Si el prod no exitste en el carrito, lo agrego con la cantidad manteniendo lo previo */
-            setCart(prev => [...prev, {item, cantidad}])
-        }else{ /* si el prod existe, le actualizo cantidades */
-            const updatedCart = cart.map(prod => {
-                if(prod.item.id === item.id){
-                    return {...prod, cantidad: prod.cantidad + cantidad}
-                }else{
-                    return prod;
+    const updateTotalItemAndPrice = (cart)=>{
+        setTotalItems(0)
+        setTotalPrice(0)
+        cart.forEach(item => {
+            setTotalItems(prev => prev + item.quantity);
+            
+            if(item.product.onSale){
+                setTotalPrice(prev => prev + (((100-item.product.descuento)*(item.product.price)) /100)* item.quantity)
+            }else{
+                setTotalPrice(prev => prev + item.product.price * item.quantity)
+            }
+        });
+    }
+
+    const loadCart = async(cid)=>{
+        try {
+            const res = await getCartByID(cid);
+    
+            if(res.ok){
+                const cartDB = await res.json()
+                setCart(cartDB.products)
+                updateTotalItemAndPrice(cartDB.products)
+
+                return {ok: true, products: cartDB.products}
+            }else{
+                const error = await res.json()
+                return {ok: false, products: [], message: error.message}
+            }
+
+        } catch (error) {
+            return {ok: false, products: [], message: error}
+        }
+    }
+
+    const addProduct = async(cid, pid, quantity=1) =>{
+        try {
+            const res = await addProductToCart(cid, pid, quantity)
+            
+            if(res.ok){
+                Toastify({
+                    text: `producto agregado al carrito con exito`,
+                    duration: 3500,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "left", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "mensajeToastify agregado"
+                  }).showToast();
+            }else{
+
+                const response = await res.json()
+                Swal.fire({
+                    icon: 'error',
+                    title: `${response.message}`,    
+                    showConfirmButton:false,
+                    timer: 3500,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                })
+                
+                Toastify({
+                    text: `No se logró agregar el producto al carrito`,
+                    duration: 3500,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "left", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "mensajeToastify quitado"
+                  }).showToast();
+            }
+
+            /* actualizo el local storage y . */
+            await loadCart(cid)
+            updateLocalStorage()
+
+            return res
+        } catch (error) {
+            return Swal.fire({
+                icon: 'error',
+                title: `${error}`,    
+                showConfirmButton:false,
+                timer: 3500,
+                customClass: {
+                    title: "titleText",  
                 }
             })
-            setCart(updatedCart)
         }
-        item.onSale ? setTotalPrice(prev => prev + (((100-item.descuento)*item.precio)/100) * cantidad) : setTotalPrice(prev => prev + (item.precio * cantidad))
-        setTotalItems(prev => prev + cantidad)
-
-        /* actualizo el local storage. */
-        updateLocalStorage()
-
-        Toastify({
-            text: `producto "${item.nombre}" agregado al carrito (cantidad: ${cantidad})`,
-            duration: 3500,
-            close: true,
-            gravity: "bottom", // `top` or `bottom`
-            position: "left", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            className: "mensajeToastify agregado"
-          }).showToast();
     }
 
-    const removeItem = (id) => {
-        const removedItem = cart.find(prod => prod.item.id === id)
-        const updatedCart = cart.filter(prod => prod.item.id !== id)
+    const removeProduct = async (cid, pid) => {
+        try {
+            const response = await deleteProductFromCart(cid, pid)
+            
+            if(response.ok){
+                Toastify({
+                    text: `producto eliminado con exito`,
+                    duration: 3500,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "left", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "mensajeToastify quitado"
+                  }).showToast();
+            }else{
 
-        setCart(updatedCart)
-        removedItem.item.onSale ? setTotalPrice(prev => prev - (((100-removedItem.item.descuento)*removedItem.item.precio)/100) * removedItem.cantidad) : setTotalPrice(prev => prev - removedItem.item.precio * removedItem.cantidad)
-        setTotalItems (prev => prev - removedItem.cantidad)
+                const res = await response.json()
+                Swal.fire({
+                    icon: 'error',
+                    title: `${res.message}`,    
+                    showConfirmButton:false,
+                    timer: 3500,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                })
+            }
 
-        /* actualizo el local storage. */
-        updateLocalStorage()
+            /* actualizo el local storage. */
+            await loadCart(cid)
+            updateLocalStorage()
 
-        Toastify({
-            text: `producto "${removedItem.item.nombre}"quitado del carrito`,
-            duration: 3500,
-            close: true,
-            gravity: "bottom", // `top` or `bottom`
-            position: "left", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            className: "mensajeToastify quitado"
-          }).showToast();
+        } catch (error) {
+            return error
+        }
     }
 
-    const clearCart = () => {
+    const updateCartWithArr = async (cid, array) => {
+        try {
+            const response = await updateCartWithArray(cid, array);
+
+            if(response.ok){
+
+                updateLocalStorage()
+                await loadCart(cid)
+                
+                return Toastify({
+                    text: `El carrito se ha actualizado`,
+                    duration: 3500,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "left", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        className: "mensajeToastify quitado"
+                }).showToast();   
+            }
+
+            const res = await response.json()
+            Swal.fire({
+                icon: 'error',
+                title: `${res.message}`,    
+                showConfirmButton:false,
+                timer: 2000,
+                customClass: {
+                    title: "titleText",  
+                }
+            })
+            return res
+
+        } catch (error) {
+            return error
+        }
+    }
+
+
+    //Para borrar 
+
+    const clearCart = async () => {
+        
         setCart([])
         setTotalPrice(0)
         setTotalItems(0)
@@ -109,6 +226,7 @@ export const CartContextProvider = ({children}) => {
                 className: "mensajeToastify quitado"
         }).showToast();   
     }
+
 
     const increaseAmount = (id) => {
         const item = cart.find(prod => prod.item.id === id)
@@ -258,7 +376,7 @@ export const CartContextProvider = ({children}) => {
     }
 
     return(
-        <CartContext.Provider value={{cart, totalPrice, totalItems, addItem, removeItem, clearCart, increaseAmount, decreaseAmount, buyItems }}>
+        <CartContext.Provider value={{cart, totalPrice, totalItems, loadCart, addProduct, removeProduct, setCart, updateCartWithArr, clearCart, increaseAmount, decreaseAmount, buyItems }}>
         {children}
         </CartContext.Provider>
     )

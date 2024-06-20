@@ -5,41 +5,54 @@ import './Item_Card.scss'
 import { useState, useEffect } from "react"
 import { useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
+import { UserContext } from '../../context/UserContext/UserContext'
 
 const BackendRoute = 'http://localhost:8080'
 
 const ItemOnSale_Card = (prod) => {/*items en liquidación */
     const [imgs, setImgs] = useState([])
-    const {addItem, removeItem , cart} = useContext(CartContext)
+    const [btnAddRemove, setBtnAddRemove] = useState(null)
+    const [loading, setLoading] = useState(true)
 
+    const {removeProduct, cart, addProduct, loadCart} = useContext(CartContext)
+    const {cartID} = useContext(UserContext)
+
+    //Para las imagenes
     useEffect(()=>{
-            let fullPathImages = [];
-            prod.img.forEach(img => { fullPathImages.push(BackendRoute+img) });
-            setImgs(fullPathImages)
+        let fullPathImages = [];
+        prod.img.forEach(img => { fullPathImages.push(BackendRoute+img) });
+        setImgs(fullPathImages)
     },[])
 
-    let btnAddRemove
-    let buttonIcon
-    let butonText
-    
-    if (prod.stock < 1){
-        btnAddRemove =  <button disabled id={prod.id} className="btn btn-white shadow-sm rounded-pill bg-white cart-btn sinStock" >
-                            Sin Stock
-                        </button>
-    }
-    else if (cart.some((elemento)=> elemento.item.id === prod.id)){/* creo la variable botón segun corresponda por cada prod. (si está o no en el carrito) */
-        buttonIcon = <i className="fa-solid fa-xmark"></i>
-        butonText = 'Quitar'
-        btnAddRemove =  <button id={prod.id} onClick={()=>{removeItem(prod.id)}} className="btn btn-white shadow-sm rounded-pill bg-white cart-btn">
-                                {buttonIcon}{butonText}
-                            </button>
-    }else{
-        buttonIcon = <i id="articles" className="fa-solid fa-cart-shopping"></i>
-        butonText = 'Añadir'
-        btnAddRemove =  <button id={prod.id} onClick={()=>{addItem(prod ,1)}} className="btn btn-white shadow-sm rounded-pill bg-white cart-btn">
-                                {buttonIcon}{butonText}
-                            </button>
-    } 
+    //Para los botones
+    useEffect(()=>{
+        const updateButton = async () => {
+            if (prod.stock < 1) {
+                setBtnAddRemove(
+                    <button disabled id={prod.id} className="btn btn-white shadow-sm rounded-pill bg-white cart-btn sinStock">
+                        Sin Stock
+                    </button>
+                );
+            } else if (cart.some((elemento) => elemento.product._id === prod.id)) {
+                setBtnAddRemove(
+                    <button id={prod.id} onClick={async () => {setLoading(true); await removeProduct(cartID, prod.id);  await loadCart(cartID)}} className="btn btn-white shadow-sm rounded-pill bg-white cart-btn">
+                        <i className="fa-solid fa-xmark"></i> Quitar
+                    </button>
+                );
+            } else {
+                setBtnAddRemove(
+                    <button id={prod.id} onClick={async () => {setLoading(true); await addProduct(cartID, prod.id); await loadCart(cartID)}} className="btn btn-white shadow-sm rounded-pill bg-white cart-btn">
+                        <i id="articles" className="fa-solid fa-cart-shopping"></i> Añadir
+                    </button>
+                );
+            }
+            setLoading(false);
+        };
+
+        updateButton();
+    },[cart])
+
+
     let precioConDescuento = ((100-prod.descuento)*prod.precio)/100
 
     return (
@@ -55,7 +68,7 @@ const ItemOnSale_Card = (prod) => {/*items en liquidación */
 
                 <Link to={`/products/${prod.id}`}> <img src= {imgs[0]} alt={prod.alt}/> </Link>{/* IMAGEN DEL PRODUCTO */}
                 <div className="">{/* BOTON DEL CARRRITO */}
-                    {btnAddRemove}
+                    {loading? null : btnAddRemove}
                 </div>
 
             </div>
@@ -70,7 +83,8 @@ const ItemOnSale_Card = (prod) => {/*items en liquidación */
             </div> 
         </div>   
     )
-}/* boton del carrito con id del producto */
+}
+
 export default ItemOnSale_Card
 
 

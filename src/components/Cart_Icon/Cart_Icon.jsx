@@ -7,7 +7,7 @@ const Cart_Icon = () => {
   const {cart} = useContext(CartContext)
 
   useEffect(()=>{
-    setCounter(cart.length)/* No quiero usar la cantidad total de productos sino cantidad de prods en carrito sin contar sus cantidades */
+    setCounter(cart? cart.length : 0)/* No quiero usar la cantidad total de productos sino cantidad de prods en carrito sin contar sus cantidades */
   }, [cart])
 
   return (

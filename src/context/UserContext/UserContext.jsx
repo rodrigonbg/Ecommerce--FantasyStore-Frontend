@@ -188,9 +188,9 @@ export const UserContextProvider = ({children}) => {
     }
 
     const validActiveSession = async()=>{
-        const session = await validSession()
+        const res = await validSession()
 
-        if(!session){
+        if(!res.session){
             setUser(false)
             setId (null)
             setNombre(null)
@@ -204,6 +204,10 @@ export const UserContextProvider = ({children}) => {
             setEdad(null)
             setDocuments([])
             updateLocalStorage() //Si la sesion está incactiva, deslogueo
+        }else{
+            const user= res.user
+            logIn(user)
+            updateLocalStorage()
         }
     }
 

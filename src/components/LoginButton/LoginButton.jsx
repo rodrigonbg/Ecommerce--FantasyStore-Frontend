@@ -1,11 +1,18 @@
 import "./LoginButton.scss"
 import { UserContext } from "../../context/UserContext/UserContext"
-import { useContext } from "react"
+import { useContext , useEffect} from "react"
 import { Link } from "react-router-dom"
 
 const LoginButton = (props) => {
 
-  const {user, logOut} = useContext(UserContext)
+  const {validActiveSession, user,logOut, nombre, apellido, rol} = useContext(UserContext)
+  useEffect(()=>{
+
+      const valid= async()=>{
+          await validActiveSession()
+      }
+      valid()
+  },[user])
 
   return (
     <div>
