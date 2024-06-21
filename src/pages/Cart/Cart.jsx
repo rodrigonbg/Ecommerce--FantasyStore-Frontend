@@ -23,6 +23,8 @@ const Cart = () => {
   const [loader, setLoader] = useState(true);
 
   useEffect(()=>{
+    setLoader(true)
+
     const valid= async()=>{
         await validActiveSession()
     }

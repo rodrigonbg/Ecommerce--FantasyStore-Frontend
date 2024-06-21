@@ -15,7 +15,7 @@ export const routesLink = [ {text:'Inicio', path:'/'},
                             {text:'Categorias', path:'/categories'},
                             {text:'Nosotros', path:'/about_us'},
                             {text:'Ayuda', path:'/help'},
-                            {text:'Contacto', path:'/contact'}]
+                            {text:'Mi Perfil', path:'/profile'}]
 
 const Navbar = () => {
     

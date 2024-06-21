@@ -8,7 +8,8 @@ import "toastify-js/src/toastify.css"
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext/UserContext'
 
-import {getCartByID, addProductToCart, deleteProductFromCart, updateCartWithArray} from '../services/API/carts'
+import {getCartByID, addProductToCart, deleteProductFromCart, updateCartWithArray, updateQuantityOfProdctInCart} from '../services/API/carts'
+import {validSession} from '../services/API/users'
 
 export const CartContext = createContext({ /* el valor por defoult del context del carrito es un objeto con esta información */
     cart: localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")) : [], /* Si hay carrito en local storage lo recupero, sino array vacio */
@@ -21,7 +22,7 @@ export const CartContextProvider = ({children}) => {
     const [cart, setCart] = useState(localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")) : [])
     const [totalPrice, setTotalPrice] = useState(localStorage.getItem("totalPrice")? JSON.parse(localStorage.getItem("totalPrice")) : 0)
     const [totalItems, setTotalItems] = useState(localStorage.getItem("totalItems")? JSON.parse(localStorage.getItem("totalItems")) : 0)
-    const {correo, nombre, apellido, telefono} = useContext(UserContext)
+    const {correo, nombre, apellido, telefono, rol} = useContext(UserContext)
 
     const updateLocalStorage = () =>{
         let updatedCart = JSON.stringify(cart)
@@ -34,7 +35,6 @@ export const CartContextProvider = ({children}) => {
         localStorage.setItem("totalPrice", updatedTotalPrice)
         localStorage.setItem("totalItems", updatedTotalItems)
     }
-    /* actualizo el local storage. */
     updateLocalStorage()
 
 
@@ -55,6 +55,10 @@ export const CartContextProvider = ({children}) => {
 
     const loadCart = async(cid)=>{
         try {
+            if(rol === 'admin'){
+                return {ok: false, products: [], message: 'El administrador no accede a las funcionalidades del carrito de compra.'}
+            }
+
             const res = await getCartByID(cid);
     
             if(res.ok){
@@ -75,9 +79,21 @@ export const CartContextProvider = ({children}) => {
 
     const addProduct = async(cid, pid, quantity=1) =>{
         try {
+            if(rol === 'admin'){
+                return Swal.fire({
+                    icon: 'error',
+                    title: `El administrador no accede a las funcionalidades del carrito de compra.`,    
+                    showConfirmButton:false,
+                    timer: 3500,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                })
+            }
+
             const res = await addProductToCart(cid, pid, quantity)
-            
-            if(res.ok){
+            console.log(res)
+            if(res.ok && !res.redirected){
                 Toastify({
                     text: `producto agregado al carrito con exito`,
                     duration: 3500,
@@ -87,8 +103,19 @@ export const CartContextProvider = ({children}) => {
                     stopOnFocus: true, // Prevents dismissing of toast on hover
                     className: "mensajeToastify agregado"
                   }).showToast();
-            }else{
+            }else if(res.redirected){
 
+                Swal.fire({
+                    icon: 'error',
+                    title: `Debe loguearse para agregar productos a su carrito`,    
+                    showConfirmButton:false,
+                    timer: 3500,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                })
+
+            }else{
                 const response = await res.json()
                 Swal.fire({
                     icon: 'error',
@@ -131,6 +158,18 @@ export const CartContextProvider = ({children}) => {
 
     const removeProduct = async (cid, pid) => {
         try {
+            if(rol === 'admin'){
+                return Swal.fire({
+                    icon: 'error',
+                    title: `El administrador no accede a las funcionalidades del carrito de compra.`,    
+                    showConfirmButton:false,
+                    timer: 3500,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                })
+            }
+
             const response = await deleteProductFromCart(cid, pid)
             
             if(response.ok){
@@ -203,92 +242,145 @@ export const CartContextProvider = ({children}) => {
         }
     }
 
-
-    //Para borrar 
-
-    const clearCart = async () => {
+    const increaseAmount = async (cid, pid, quantityToIncrease) => {
         
-        setCart([])
-        setTotalPrice(0)
-        setTotalItems(0)
+        if(rol === 'admin'){
+            return Swal.fire({
+                icon: 'error',
+                title: `El administrador no accede a las funcionalidades del carrito de compra.`,    
+                showConfirmButton:false,
+                timer: 3500,
+                customClass: {
+                    title: "titleText",  
+                }
+            })
+        }
 
-        /* actualizo el local storage. */
-        updateLocalStorage()
+        const item = cart.find((item) => item.product._id == pid)
+        const index = cart.indexOf(item)
+        
+        if(index != -1){
+            let item = cart[index]
+            let newQuantity = item.quantity + quantityToIncrease;
+            const res = await updateQuantityOfProdctInCart(cid, pid, newQuantity);
+            
+            if(res.ok){
                 
-        window.scroll({top: 0})
-        Toastify({
-            text: `El carrito se ha vaciado`,
-            duration: 3500,
-            close: true,
-            gravity: "bottom", // `top` or `bottom`
-            position: "left", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                className: "mensajeToastify quitado"
-        }).showToast();   
-    }
+                let updatedCart = cart;
+                updatedCart[index].quantity = newQuantity
+                setCart(updatedCart)
+                updateTotalItemAndPrice(updatedCart)
 
-
-    const increaseAmount = (id) => {
-        const item = cart.find(prod => prod.item.id === id)
-        const index = cart.indexOf(item)
-        if (cart[index].item.stock > cart[index].cantidad){
-            const updatedCart = cart.map(prod => {
-                if(prod.item.id === id){
-                    return {...prod, cantidad: prod.cantidad + 1}
-                }else{
-                    return prod;
-                }
-            })
-            setCart(updatedCart)
-            setTotalItems (prev => prev + 1 )
-            cart[index].item.onSale ? setTotalPrice(prev => prev + (((100-cart[index].item.descuento)*cart[index].item.precio)/100)*1 ) : setTotalPrice(prev => prev + (cart[index].item.precio * 1))
-
-            /* actualizo el local storage. */
-            updateLocalStorage()
-
+            }else{
+                const error = await res.json();
+                Swal.fire({
+                    icon: 'error',
+                    title: `${error}`,    
+                    showConfirmButton:false,
+                    timer: 3500,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                })
+            }
         }else{
-            Toastify({
-                text: `El stock del producto "${item.item.nombre}" es de ${item.item.stock}`,
-                duration: 3500,
-                close: true,
-                gravity: "bottom", // `top` or `bottom`
-                position: "left", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                className: "mensajeToastify aviso"
-              }).showToast();
-        }
-    }
-
-    const decreaseAmount = (id) => {
-        const item = cart.find(prod => prod.item.id === id)
-        const index = cart.indexOf(item)
-        if (cart[index].cantidad > 1){
-            const updatedCart = cart.map(prod => {
-                if(prod.item.id === id){
-                    return {...prod, cantidad: prod.cantidad - 1}
-                }else{
-                    return prod;
+            Swal.fire({
+                icon: 'error',
+                title: `El producto no se encuentra en el carrito`,    
+                showConfirmButton:false,
+                timer: 3500,
+                customClass: {
+                    title: "titleText",  
                 }
-            })
-            setCart(updatedCart)
-            setTotalItems (prev => prev - 1 )
-            cart[index].item.onSale ? setTotalPrice(prev => prev - (((100-cart[index].item.descuento)*cart[index].item.precio)/100)*1 ) : setTotalPrice(prev => prev + (cart[index].item.precio * 1))
+            }) 
+        }
         
-            /* actualizo el local storage. */
-            updateLocalStorage()
+        updateLocalStorage()
+
+    }
+
+    const decreaseAmount = async (cid, pid, quantityToDecrease) => {
+        if(rol === 'admin'){
+            return Swal.fire({
+                icon: 'error',
+                title: `El administrador no accede a las funcionalidades del carrito de compra.`,    
+                showConfirmButton:false,
+                timer: 3500,
+                customClass: {
+                    title: "titleText",  
+                }
+            })
+        }
+
+        const item = cart.find((item) => item.product._id == pid)
+        const index = cart.indexOf(item)
+        
+        if(index != -1){
+            let item = cart[index]
+            let newQuantity = item.quantity - quantityToDecrease;
+
+            if(newQuantity > 0){
+                const res = await updateQuantityOfProdctInCart(cid, pid, newQuantity);
+                
+                if(res.ok){
+                
+                    let updatedCart = cart;
+                    updatedCart[index].quantity = newQuantity
+                    setCart(updatedCart)
+                    updateTotalItemAndPrice(updatedCart)
+                }else{
+                    const error = await res.json();
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${error}`,    
+                        showConfirmButton:false,
+                        timer: 3500,
+                        customClass: {
+                            title: "titleText",  
+                        }
+                    })
+                }
+
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: `La cantidad a comprar debe se superior a 0`,    
+                    showConfirmButton:false,
+                    timer: 3000,
+                    customClass: {
+                        title: "titleText",  
+                    }
+                }) 
+            }
 
         }else{
-            Toastify({
-                text: `El stock no puede bajar de una unidad.`,
-                duration: 3500,
-                close: true,
-                gravity: "bottom", // `top` or `bottom`
-                position: "left", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                className: "mensajeToastify aviso"
-              }).showToast();
+            Swal.fire({
+                icon: 'error',
+                title: `El producto no se encuentra en el carrito`,    
+                showConfirmButton:false,
+                timer: 3500,
+                customClass: {
+                    title: "titleText",  
+                }
+            }) 
+        }
+            
+        updateLocalStorage()
+    }
+
+    const validActiveSessionCart = async()=>{
+        const res = await validSession()
+        if(!res.session){
+            setCart([])
+            setTotalItems(0)
+            setTotalPrice(0)
+            updateLocalStorage() //Si la sesion está incactiva, deslogueo
         }
     }
+
+
+
+
     /* --------------------------------------------------- */
     /* ----------- funciones para las compras de productos */
     /* --------------------------------------------------- */
@@ -344,7 +436,6 @@ export const CartContextProvider = ({children}) => {
                         title: "titleText",  
                     }
                 })
-                clearCart()
                 const idCompra = compraRef.id
                 return idCompra
             })
@@ -376,7 +467,7 @@ export const CartContextProvider = ({children}) => {
     }
 
     return(
-        <CartContext.Provider value={{cart, totalPrice, totalItems, loadCart, addProduct, removeProduct, setCart, updateCartWithArr, clearCart, increaseAmount, decreaseAmount, buyItems }}>
+        <CartContext.Provider value={{cart, totalPrice, totalItems, loadCart, addProduct, removeProduct, setCart, validActiveSessionCart, updateCartWithArr, increaseAmount, decreaseAmount, buyItems }}>
         {children}
         </CartContext.Provider>
     )

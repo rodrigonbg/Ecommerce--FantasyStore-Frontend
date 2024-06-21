@@ -1,0 +1,48 @@
+.addProductContainer{
+
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    
+    padding:10px;
+    margin: 40px 0;
+    
+    input,textarea,select, button  {
+        margin: 0 20px 20px 20px
+    }
+
+    label{
+        color:#8B9E70; 
+    }
+
+    .submitForm{
+        padding: 2px 1%;
+        border-radius: 30px;
+        border: solid 1px #8B9E70;
+        text-decoration: none;
+        color:#ffffff;
+        margin-bottom: 20px;
+        background-color:#8B9E70 ;
+        &:hover{
+            background-color:#535f42 ;
+        }
+    }
+
+}
+
+.errorform{
+    color:rgb(163, 92, 92);
+    margin:0;
+}
+
+.error{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    
+    width: 100%;
+    
+    p{
+        margin: 10px 0; 
+    }
+}

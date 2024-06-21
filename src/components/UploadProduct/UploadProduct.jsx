@@ -48,7 +48,14 @@ const UploadProduct = () => {
         if(!user){
             setErrorUser((<p>Necesitas estar logueado para acceder a esta página</p>))
         }else if(rol === 'usuario'){
-            setErrorUser((<p>Acceso solo a usuarios premium o administradores.</p>))
+            setErrorUser((
+                <div className='error'>
+
+                    <p>La funcionalidad de subir un producto para su venta está solo disponible para usuarios con rol premium o administradores.</p>
+                    <p>Para ser un usuario premium primero debes cargar algunos documentos y luego cambiar tu rol.</p>
+
+                </div>
+                ))
         }
 
     },[user])
@@ -95,7 +102,7 @@ const UploadProduct = () => {
     const handlePrice = (value) =>{
         setPrice(value)
         if(value <= 0){
-            setErrorPrice((<p>El precio debe ser un valor positivo.</p>))
+            setErrorPrice((<p className='errorform'>El precio debe ser un valor positivo.</p>))
         }else{
             setErrorPrice(null)
         }
@@ -117,13 +124,13 @@ const UploadProduct = () => {
         setErrorDescuento(null)
 
         if (isNaN(value)) {
-            setErrorDescuento(<p>Ingrese un valor numérico</p>);
+            setErrorDescuento(<p className='errorform'>Ingrese un valor numérico</p>);
         } else {
             const numericValue = Number(value);
 
             if (onSale) {
                  if (numericValue < 1 || numericValue > 99) {
-                    setErrorDescuento(<p>Ingrese un valor entre 1 y 99</p>);
+                    setErrorDescuento(<p className='errorform'>Ingrese un valor entre 1 y 99</p>);
                 } else {
                     setErrorDescuento(null);
                 }
@@ -139,11 +146,11 @@ const UploadProduct = () => {
         setErrorStock(null)
 
         if (isNaN(value)) {
-            setErrorStock(<p>Ingrese un valor numérico</p>);
+            setErrorStock(<p className='errorform'>Ingrese un valor numérico</p>);
         } else {
             const numericValue = Number(value);
             if (numericValue < 1) {
-                setErrorStock(<p>El stock debe ser un valor positivo</p>);
+                setErrorStock(<p className='errorform'>El stock debe ser un valor positivo</p>);
             } else {
                 setErrorStock(null);
             }
@@ -232,63 +239,63 @@ const UploadProduct = () => {
     }
 
   return (
-    <section>
+    <section className='addProductContainer'>
     {   
         errorUser?
         errorUser
         :
         <form className="addProductForm" onSubmit={(e) => handleSubmit(e)} encType="multipart/form-data">
             <label htmlFor="title">Titulo del producto</label>
-            <input name="title" type="text" id="title" placeholder="Titulo" required={true} onChange={(e) => handleTittle(e.target.value)} value={title}/>
             {errorTittle&& errorTittle}
+            <input name="title" type="text" id="title" placeholder="Titulo" required={true} onChange={(e) => handleTittle(e.target.value)} value={title}/>
 
             <label htmlFor="title">descripción</label>
-            <textarea type="textFiled" id="description" cols="30" rows="5" placeholder="Descripción" name="description" required={true} onChange={(e) => handleDescripcion(e.target.value)} value={descripcion}/>
             {errorDescripcion&& errorDescripcion}
+            <textarea type="textFiled" id="description" cols="30" rows="5" placeholder="Descripción" name="description" required={true} onChange={(e) => handleDescripcion(e.target.value)} value={descripcion}/>
 
             <label htmlFor="idCategoria">Seleccione la categoría del producto</label>
+            {errorIdCategoria&& errorIdCategoria}
             <select name="idCategoria" id="idCategory" onChange={(e) => handleIdCategoria(e.target.value)}>
                 <option value="1">dormitorio</option>
                 <option value="2">living</option>
                 <option value="3">oficina</option>
                 <option value="4">comedor</option> 
             </select>
-            {errorIdCategoria&& errorIdCategoria}
 
             <label htmlFor="price">Ingrese el precio</label>
-            <input type="number" id="price" placeholder="Precio" name="price" required={true} onChange={(e) => handlePrice(e.target.value)} value={price}/>
             {errorPrice&& errorPrice}
+            <input type="number" id="price" placeholder="Precio" name="price" required={true} onChange={(e) => handlePrice(e.target.value)} value={price}/>
 
+            {errorOnSale&& errorOnSale}
             <select id="onSale" name="onSale" onChange={(e) => handleOnSale(e.target.value)}>
                 <option value={false}>FULL PRICE</option>
                 <option value={true}>SALE</option>
             </select>
-            {errorOnSale&& errorOnSale}
 
             <label htmlFor="descuento">ingrese el descuento</label>
-            <input type="text" id="descuento" disabled={onSale? false:true} value={descuento} placeholder="Descuento" name="descuento" required={true} onChange={handleDescuento}/>
             {errorDescuento&& errorDescuento}
+            <input type="text" id="descuento" disabled={onSale? false:true} value={descuento} placeholder="Descuento" name="descuento" required={true} onChange={handleDescuento}/>
 
             <label htmlFor="stock">ingrese el Stock disponible</label>
-            <input type="text" id="stock" placeholder="Stock" name="stock" required={true} onChange={handleStock} value={stock}/>
             {errorStock&& errorStock}
+            <input type="text" id="stock" placeholder="Stock" name="stock" required={true} onChange={handleStock} value={stock}/>
 
             <label htmlFor="code">ingrese un código único</label>
-            <input type="text" id="code" placeholder="Código" name="code" required={true} onChange={(e) => handleCode(e.target.value)} value={code}/>
             {errorCode&& errorCode}
+            <input type="text" id="code" placeholder="Código" name="code" required={true} onChange={(e) => handleCode(e.target.value)} value={code}/>
 
             <label htmlFor="status">Seleccione el estado del producto</label>
+            {errorStatus&& errorStatus}
             <select id="status" name="status" onChange={(e) => handleStatus(e.target.value)} >
                 <option value="true">Activo</option>
                 <option value="false">Inactivo</option>
             </select>
-            {errorStatus&& errorStatus}
 
             <label htmlFor="thumbnail">Seleccione las imagenes</label>
-            <input type="file" id="thumbnail" name="thumbnail" multiple required={true} onChange={(e) => handleThumbnail(e.target.files)}/>
             {errorThumbnail&& errorThumbnail}
+            <input type="file" id="thumbnail" name="thumbnail" multiple required={true} onChange={(e) => handleThumbnail(e.target.files)}/>
 
-            <button type="submit" id="btnAdd">Agregar Producto</button>
+            <button className='submitForm' type="submit" id="btnAdd">Agregar Producto</button>
         </form>
     }
     </section>

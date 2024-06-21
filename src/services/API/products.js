@@ -7,7 +7,9 @@ const getProducts = async (idCategoria) =>{
     try {
       const rutaQueries = idCategoria? `?idCategoria=${idCategoria}` : ''
 
-      const response = await fetch(`${baseURL}${PORT}/api/products${rutaQueries}`)
+      const response = await fetch(`${baseURL}${PORT}/api/products${rutaQueries}`, {
+        credentials: 'include'
+      })
 
       if (!response.ok) {
           throw new Error(`Hubo un problema con la solicitud fetch: ${response.statusText}`);
@@ -24,7 +26,9 @@ const getProducts = async (idCategoria) =>{
 //Traer un producto en particular--> GET /api/products/:pid
 const getProductByID = async (pid) =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/${pid}`);
+    const response = await fetch(`${baseURL}${PORT}/api/products/${pid}`, {
+      credentials: 'include',
+    });
 
     if (!response.ok) {
       throw new Error(`Hubo un problema con la solicitud fetch al solicitar un producto por ID : ${response.statusText}`);
@@ -34,7 +38,27 @@ const getProductByID = async (pid) =>{
     return prod;
 
   } catch (error) {
-    throw error
+    return error
+  }
+}
+
+//Traer un producto en particular--> GET /api/products/productsOwner
+const getProductByOwner = async () =>{
+  try {
+    const response = await fetch(`${baseURL}${PORT}/api/products/productsOwner`, {
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+
+      throw new Error(`Error al obtener los productos del usaurio : ${response.statusText}`);
+    }
+    
+    const prods = { ok:true, products:await response.json() };
+    return prods;
+
+  } catch (error) {
+    return error
   }
 }
 
@@ -106,6 +130,7 @@ const deleteProductPremium = async (pid) =>{
 export {
   getProducts, 
   getProductByID, 
+  getProductByOwner,
   postNewProductAdmin, 
   postNewProductPremium,
   deleteProductAdmin,

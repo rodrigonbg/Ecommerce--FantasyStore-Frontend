@@ -42,7 +42,7 @@ const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, o
 
   return (
       <div key={_id} className = 'product_Detail'>
-        <Link to="/" className="goBackLink">{/*  */}
+        <Link to="/" className="goBackLink">
           {' <-- Go Back'}
         </Link>
 

@@ -36,15 +36,15 @@ const ProductDetail_Container = () => {
 
   return (
     <>
-    {loading? 
-      <Loading/>
-      :
-        error?
-        error
+      {loading? 
+        <Loading/>
         :
-        <Product_Detail {...product} />
-      
-    }
+          error?
+          error
+          :
+          <Product_Detail {...product} />
+        
+      }
     </>
   )
 }

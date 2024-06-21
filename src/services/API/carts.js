@@ -12,11 +12,10 @@ const getCarts = async () =>{
                     'Content-Type': 'application/json',
                     }
         })
-            .then(data =>  data.json())
-            .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
+
         return carts;
     } catch (error) {
-        throw error
+        return error
     }
 }
 
@@ -81,11 +80,9 @@ const finishPurchase = async (cid) =>{
                     }
         })
 
-            .then(data =>  data.json())
-            .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
         return response;
     } catch (error) {
-        throw error
+        return error
     }
 }
 

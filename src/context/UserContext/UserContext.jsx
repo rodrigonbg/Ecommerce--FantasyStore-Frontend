@@ -1,4 +1,5 @@
-import { useState, createContext } from "react";
+import { useState, createContext ,useContext} from "react";
+import { CartContext } from '../CartContext'
 import { collection, addDoc, doc, query, getDocs, getDoc, where, limit} from "firebase/firestore" 
 import './UserContext.scss'
 import { db } from '../../services/config'
@@ -6,7 +7,6 @@ import Swal from 'sweetalert2'
 import {LocalLogin, GithubRegisterLogin, logout, LocalRegister, validSession} from '../../services/API/users'
 
 export const UserContext = createContext()
-
 
 export const UserContextProvider = ({children}) => {
     /* usestate para almacentar informacion del cliente logueado */
