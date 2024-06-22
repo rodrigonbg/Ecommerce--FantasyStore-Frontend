@@ -50,10 +50,8 @@ const UploadProduct = () => {
         }else if(rol === 'usuario'){
             setErrorUser((
                 <div className='error'>
-
                     <p>La funcionalidad de subir un producto para su venta está solo disponible para usuarios con rol premium o administradores.</p>
                     <p>Para ser un usuario premium primero debes cargar algunos documentos y luego cambiar tu rol.</p>
-
                 </div>
                 ))
         }

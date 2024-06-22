@@ -1,8 +1,5 @@
 import { useState, createContext ,useContext} from "react";
-import { CartContext } from '../CartContext'
-import { collection, addDoc, doc, query, getDocs, getDoc, where, limit} from "firebase/firestore" 
 import './UserContext.scss'
-import { db } from '../../services/config'
 import Swal from 'sweetalert2'
 import {LocalLogin, GithubRegisterLogin, logout, LocalRegister, validSession} from '../../services/API/users'
 
@@ -22,7 +19,7 @@ export const UserContextProvider = ({children}) => {
     const [edad, setEdad] = useState(localStorage.getItem("usuario")? JSON.parse(localStorage.getItem("usuario")).edad : null)
     const [cartID, setCartID] = useState(localStorage.getItem("usuario")? JSON.parse(localStorage.getItem("usuario")).cartID : null)
     const [documents, setDocuments] = useState(localStorage.getItem("usuario")? JSON.parse(localStorage.getItem("usuario")).documents : [])
-    const [idCompra, setIdCompra] = useState(null)
+
     const [loadingLogIn, setLoadingLogIn] = useState(false)
     const [loadingSingUp, setLoadingSingUp] = useState(false)
     
@@ -46,7 +43,7 @@ export const UserContextProvider = ({children}) => {
         localStorage.setItem('usuario', usuarioJson)
     }
 
-    const logIn = (user) => {
+    const logIn = async (user) => {
         setUser(true)
         setId(user._id)
         setNombre(user.firstName)
@@ -114,7 +111,7 @@ export const UserContextProvider = ({children}) => {
                 }else{
                     const user = await res.user;
                     setId(user._id)
-                    logIn(user)
+                    await logIn(user)
                     Swal.fire({
                         icon: 'success',
                         title: 'usuario Logueado',    
@@ -137,7 +134,6 @@ export const UserContextProvider = ({children}) => {
                         title: "titleText",  
                     }
                 })
-                console.log(error)
             })
             .finally(() => setLoadingLogIn(false))
     }   
@@ -146,10 +142,10 @@ export const UserContextProvider = ({children}) => {
         setLoadingSingUp (true)
 
         LocalRegister(user)
-            .then((res)=>{
+            .then(async (res)=>{
                 console.log('resss', res)
                 if(res._id){
-                    logIn(res)
+                    await logIn(res)
 
                 }else if(res.status !== 200){
                     Swal.fire({
@@ -206,7 +202,7 @@ export const UserContextProvider = ({children}) => {
             updateLocalStorage() //Si la sesion está incactiva, deslogueo
         }else{
             const user= res.user
-            logIn(user)
+            await logIn(user)
             updateLocalStorage()
         }
     }

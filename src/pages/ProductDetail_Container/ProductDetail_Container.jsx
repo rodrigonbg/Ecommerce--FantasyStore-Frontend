@@ -2,8 +2,6 @@ import React from 'react'
 import Product_Detail from '../../components/Product_Detail/Product_Detail'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {getDoc, doc} from "firebase/firestore" 
-import { db } from "../../services/config"
 import { Loading } from '../../components/Loading/Loading'
 import {getProductByID} from '../../services/API/products'
 

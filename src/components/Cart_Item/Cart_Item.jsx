@@ -1,15 +1,14 @@
 import './Cart_Item.scss'
 import { CartContext } from '../../context/CartContext'
 import { useContext, useState, useEffect } from 'react'
-const BackendRoute = 'http://localhost:8080'
-
+import {serverURL} from '../../services/config'
 
 const Cart_Item = (props) => {
     const [imgs, setImgs] = useState([])
 
     useEffect(()=>{
         let fullPathImages = [];
-        props.prod.thumbnail.forEach(img => { fullPathImages.push(BackendRoute+img) });
+        props.prod.thumbnail.forEach(img => { fullPathImages.push(serverURL+img) });
         setImgs(fullPathImages)
     },[])
 

@@ -1,5 +1,4 @@
-const baseURL = 'http://localhost:';
-const PORT = 8080;
+import {serverURL} from '../config'
 
 //----------------------Productos------------------------------------
 //Traer todos los productos--> GET /api/products
@@ -7,14 +6,10 @@ const getProducts = async (idCategoria) =>{
     try {
       const rutaQueries = idCategoria? `?idCategoria=${idCategoria}` : ''
 
-      const response = await fetch(`${baseURL}${PORT}/api/products${rutaQueries}`, {
+      const response = await fetch(`${serverURL}/api/products${rutaQueries}`, {
         credentials: 'include'
       })
 
-      if (!response.ok) {
-          throw new Error(`Hubo un problema con la solicitud fetch: ${response.statusText}`);
-      }
-      
       const prods = await response.json();
       return prods
 
@@ -26,7 +21,7 @@ const getProducts = async (idCategoria) =>{
 //Traer un producto en particular--> GET /api/products/:pid
 const getProductByID = async (pid) =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/${pid}`, {
+    const response = await fetch(`${serverURL}/api/products/${pid}`, {
       credentials: 'include',
     });
 
@@ -45,16 +40,11 @@ const getProductByID = async (pid) =>{
 //Traer un producto en particular--> GET /api/products/productsOwner
 const getProductByOwner = async () =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/productsOwner`, {
+    const response = await fetch(`${serverURL}/api/products/productsOwner`, {
       credentials: 'include',
     });
-
-    if (!response.ok) {
-
-      throw new Error(`Error al obtener los productos del usaurio : ${response.statusText}`);
-    }
     
-    const prods = { ok:true, products:await response.json() };
+    const prods = { ok:true, products: await response.json() };
     return prods;
 
   } catch (error) {
@@ -65,7 +55,7 @@ const getProductByOwner = async () =>{
 //Subir un producto a la base de datos (admin)--> POST /api/products/admin
 const postNewProductAdmin = async (product) =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/admin`, {
+    const response = await fetch(`${serverURL}/api/products/admin`, {
           credentials: 'include',
           method: 'POST',
           body: product,
@@ -80,7 +70,7 @@ const postNewProductAdmin = async (product) =>{
 //Subir un producto a la base de datos (premium)--> POST /api/products/premium
 const postNewProductPremium = async (product) =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/premium`, {
+    const response = await fetch(`${serverURL}/api/products/premium`, {
           credentials: 'include',
           method: 'POST',
           body: product,
@@ -96,34 +86,33 @@ const postNewProductPremium = async (product) =>{
 //Eliminar un producto a la base de datos (admin)--> POST /api/products/admin/:pid (debería ser delete)
 const deleteProductAdmin = async (pid) =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/admin/${pid}`, {
+    const response = await fetch(`${serverURL}/api/products/admin/${pid}`, {
+          credentials: 'include',
           method: 'POST',
           headers:{
                     'Content-Type': 'application/json',
                   },
     })
-      .then(data =>  data.json())
-      .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
+
     return response;
   } catch (error) {
-    throw error
+    return error
   }
 }
 
 //Eliminar un producto a la base de datos (premium)--> POST /api/products/premium/:pid (debería ser delete)
 const deleteProductPremium = async (pid) =>{
   try {
-    const response = await fetch(`${baseURL}${PORT}/api/products/premium/${pid}`, {
+    const response = await fetch(`${serverURL}/api/products/premium/${pid}`, {
+          credentials: 'include',
           method: 'POST',
           headers:{
                     'Content-Type': 'application/json',
                   },
     })
-      .then(data =>  data.json())
-      .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
     return response;
   } catch (error) {
-    throw error
+    return error
   }
 }
 

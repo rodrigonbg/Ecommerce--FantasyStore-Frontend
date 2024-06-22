@@ -6,8 +6,7 @@ import { CartContext } from '../../context/CartContext'
 import { UserContext } from '../../context/UserContext/UserContext'
 import { useContext } from 'react'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
-
-const BackendRoute = 'http://localhost:8080'
+import {serverURL} from '../../services/config'
 
 const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, onSale, descuento, stock, alt, status, code, owner }) => {
 
@@ -20,7 +19,7 @@ const Product_Detail = ({_id, title, descripcion, categoria, thumbnail, price, o
   const [imgs, setImgs] = useState([])/* Cantidad de unidades a agregar al carrito */
   useEffect(()=>{
     let fullPathImages = [];
-    thumbnail.forEach(img => { fullPathImages.push(BackendRoute+img) });
+    thumbnail.forEach(img => { fullPathImages.push(serverURL+img) });
     setImgs(fullPathImages)
   },[])
 

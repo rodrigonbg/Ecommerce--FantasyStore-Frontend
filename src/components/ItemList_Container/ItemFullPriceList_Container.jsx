@@ -3,8 +3,6 @@ import 'bootstrap'
 import './ItemList_Container.scss'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { collection, getDocs, where, query } from "firebase/firestore" 
-import { db } from "../../services/config"
 import ItemFullPrice_Card from "../Item_Card/ItemFullPrice_Card"
 import { Loading } from '../Loading/Loading'
 

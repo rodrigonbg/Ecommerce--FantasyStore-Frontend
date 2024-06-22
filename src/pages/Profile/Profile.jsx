@@ -12,6 +12,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import UploadProduct from '../../components/UploadProduct/UploadProduct'
 import UserProducts from '../../components/UserProducts/UserProducts'
+import UploadDocuments from '../../components/UploadDocuments/UploadDocuments'
+import UserTickets from '../../components/UserTickets/UserTickets'
   
 const Profile = () => {
     const [checked, setChecked] = useState(false);
@@ -21,13 +23,14 @@ const Profile = () => {
     const {validActiveSession, user, nombre, apellido, rol, documents} = useContext(UserContext)
     const [error, setError] = useState(null);
     const [errorUser, setErrorUser] = useState(null);
+    const [reload, setReload] = useState(0);
 
     const radios = [
         { name: 'Infomacion del usuario', value: '1' },
         { name: 'Subir un producto', value: '2' },
         { name: rol==='admin'? 'Productos de Fantasy Store' : 'Mis productos', value: '3' },
         { name: rol==='admin'?'Usuarios registrados' :'Mis Compras' , value: rol==='admin'? '6' :'4' },
-        { name:  rol==='admin'? 'Tickets': 'Documentos', value: rol==='admin'? '7' :'5' },
+        { name:  rol==='admin'? 'Tickets': 'Cargar Documentos', value: rol==='admin'? '7' :'5' },
     ];
 
     useEffect(()=>{
@@ -38,15 +41,15 @@ const Profile = () => {
 
         if(!user){
             setErrorUser((
-            <LogIn_form>
-                <SectionTitleH2 text={'Ingrese para poder ver su perfil'}/>
-            </LogIn_form>
+                <LogIn_form>
+                    <SectionTitleH2 text={'Ingrese para poder ver su perfil'}/>
+                </LogIn_form>
             ))
         }else{
             setErrorUser(null)
         }
 
-    },[user])
+    },[user, reload, rol])
 
 
     useEffect(()=>{
@@ -67,15 +70,15 @@ const Profile = () => {
                 break;
                 
             case '3':
-                setOption(<UserProducts/>)
+                setOption(<UserProducts />)
                 break;
 
             case '4':
-                setOption(<>mis compras</>)
+                setOption(<UserTickets/>)
                 break;
 
             case '5':
-                setOption(<>documentos</>)
+                setOption(<UploadDocuments setReload={setReload}/>)
                 break;
 
             case '6':
@@ -83,7 +86,7 @@ const Profile = () => {
                 break;
 
             case '7':
-                setOption(<>Tickets</>)
+                setOption(<UserTickets/>)
                 break;
 
             default:

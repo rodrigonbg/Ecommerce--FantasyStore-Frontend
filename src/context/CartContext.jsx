@@ -1,6 +1,4 @@
 import { useState, createContext } from "react";
-import { collection, addDoc, updateDoc, doc, getDoc} from "firebase/firestore" 
-import { db } from "../services/config"
 import './CartContext.scss'
 import Swal from 'sweetalert2'
 import Toastify from 'toastify-js'
@@ -8,7 +6,7 @@ import "toastify-js/src/toastify.css"
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext/UserContext'
 
-import {getCartByID, addProductToCart, deleteProductFromCart, updateCartWithArray, updateQuantityOfProdctInCart} from '../services/API/carts'
+import {getCartByID, addProductToCart, deleteProductFromCart, updateCartWithArray, updateQuantityOfProdctInCart, finishPurchase} from '../services/API/carts'
 import {validSession} from '../services/API/users'
 
 export const CartContext = createContext({ /* el valor por defoult del context del carrito es un objeto con esta información */
@@ -22,6 +20,7 @@ export const CartContextProvider = ({children}) => {
     const [cart, setCart] = useState(localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")) : [])
     const [totalPrice, setTotalPrice] = useState(localStorage.getItem("totalPrice")? JSON.parse(localStorage.getItem("totalPrice")) : 0)
     const [totalItems, setTotalItems] = useState(localStorage.getItem("totalItems")? JSON.parse(localStorage.getItem("totalItems")) : 0)
+
     const {correo, nombre, apellido, telefono, rol} = useContext(UserContext)
 
     const updateLocalStorage = () =>{
@@ -92,7 +91,7 @@ export const CartContextProvider = ({children}) => {
             }
 
             const res = await addProductToCart(cid, pid, quantity)
-            console.log(res)
+
             if(res.ok && !res.redirected){
                 Toastify({
                     text: `producto agregado al carrito con exito`,
@@ -378,91 +377,17 @@ export const CartContextProvider = ({children}) => {
         }
     }
 
-
-
-
-    /* --------------------------------------------------- */
-    /* ----------- funciones para las compras de productos */
-    /* --------------------------------------------------- */
-
-    const buyItems = async (cart) =>{
-
-        /* Creo los items a guardar en compras */
-        const items = []
-        cart.map(({item, cantidad})=> {
-            items.push({
-                id: item.id,
-                nombre: item.nombre,
-                categoria: item.categoria,
-                precio: item.precio,
-                onSale: item.onSale,
-                descuento: item.descuento,
-                img: item.img,
-                cantidad: cantidad     
-            })
-        })
-
-        /* Ejecuto varias promesas en simultaneo. para guardar la compra y para actualizar stock */
-        return Promise.all(
-            items.map( async (product) =>{
-                const productRef = doc(db, 'productos', product.id)/* creo la referencia */
-                const productDoc = await getDoc(productRef) /* obtengo el doc */
-                const stock = productDoc.data().stock /* obtengo el stock actual del prod */
-                await updateDoc(productRef, {
-                    stock: stock - product.cantidad /* actualizo la cantidad */
-                })
-            })
-        )
-        /* Cuando actualizo los items. si hubo exito guardo la compra en el then() */
-        .then(()=>{
-            return addDoc(collection(db, 'compras'),{
-                compra : items,
-                PrecioTotal: totalPrice,
-                ItemsTotal: totalItems,
-                usuario: correo,
-                nombre : nombre,
-                apellido: apellido,
-                telefono: telefono,
-                fecha: new Date()
-            })
-            /* Guardo la orden y como accion secundaria retorno el id y vacío el carrito  */
-            .then((compraRef) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Comprado con exito!!',    
-                    showConfirmButton:false,
-                    timer: 2000,
-                    customClass: {
-                        title: "titleText",  
-                    }
-                })
-                const idCompra = compraRef.id
-                return idCompra
-            })
-            .catch(()=>{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ocurrio un error al guardar la orden de compra!!',    
-                    showConfirmButton:false,
-                    timer: 2000,
-                    customClass: {
-                        title: "titleText",  
-                    }
-                })
-            })
-        })
-        /* muestro un error si hay un problema al actualizar el stock */
-        .catch(()=>{
-            Swal.fire({
-                icon: 'error',
-                title: 'Ocurrio un error al realizar la compra!!',    
-                showConfirmButton:false,
-                timer: 2000,
-                customClass: {
-                    title: "titleText",  
-                }
-            })
-        })
+    const buyItems = async (cartID) =>{
+        try {
+            const res = await finishPurchase(cartID)
+            
+            if(res.ok){
+                loadCart(cartID)
+            }
+            return res
+        } catch (error) {
+            return error
+        }
 
     }
 

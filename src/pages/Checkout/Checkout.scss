@@ -71,7 +71,6 @@
         }  
     }
 
-
     .info{
         display: flex;
         justify-content: space-between;
@@ -87,7 +86,7 @@
 
     }
 
-    .linkBack{
+    .linkBackCart{
         display: flex;
         justify-content: end;
         text-align: center;
@@ -108,27 +107,15 @@
         }
     }
 
-    .form{
-        margin-top: 50px;
-        .msg{
-            width: 100%;
-            text-align: center;
-            font-size: x-large;
-            color: $primary-color;
-            font-family: $font-family2;
-            font-weight: 600;
-        }
-    }
-
     .buton{
         text-decoration: none;
         text-align: center;
         border: none;
         background-color: $primary-color !important;
         border-color: $primary-color;
-        margin: 10px 0;
+        margin: 50px 0;
         border-radius: 30px !important;
-        padding: 5px 0;
+        padding: 15px 0;
         width: 100%;
         color: white;
         &:hover{
@@ -136,7 +123,6 @@
         }
     }
 }
-
 
 
 @media (min-width:980px) { 
@@ -210,7 +196,7 @@
             }  
         }
     
-        .linkBack{
+        .linkBackCart{
             display: flex;
             justify-content: end;
             text-align: center;
@@ -231,27 +217,15 @@
             }
         }
     
-        .form{
-            margin-top: 50px;
-            .msg{
-                width: 100%;
-                text-align: center;
-                font-size: x-large;
-                color: $primary-color;
-                font-family: $font-family2;
-                font-weight: 600;
-            }
-        }
-    
         .buton{
             text-decoration: none;
             text-align: center;
             border: none;
             background-color: $primary-color !important;
             border-color: $primary-color;
-            margin: 10px 0;
+            margin: 50px 0;
             border-radius: 30px !important;
-            padding: 5px 0;
+            padding: 15px 0;
             width: 100%;
             color: white;
             &:hover{

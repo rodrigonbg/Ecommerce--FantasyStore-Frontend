@@ -5,8 +5,7 @@ import { useState, useEffect } from "react"
 import { useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
 import { UserContext } from '../../context/UserContext/UserContext'
-
-const BackendRoute = 'http://localhost:8080'
+import {serverURL} from '../../services/config'
 
 const ItemFullPrice_Card = (prod) => {
     const [imgs, setImgs] = useState([])
@@ -19,7 +18,7 @@ const ItemFullPrice_Card = (prod) => {
     //Para las imagenes
     useEffect(()=>{
         let fullPathImages = [];
-        prod.img.forEach(img => { fullPathImages.push(BackendRoute+img) });
+        prod.img.forEach(img => { fullPathImages.push(serverURL+img) });
         setImgs(fullPathImages)
     },[])
 

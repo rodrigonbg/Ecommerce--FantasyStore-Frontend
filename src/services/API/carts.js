@@ -1,11 +1,10 @@
-const baseURL = 'http://localhost:';
-const PORT = 8080;
+import {serverURL} from '../config'
 
 //----------------------Carritos------------------------------------
 //Traer todos los Carritos--> GET /api/carts
 const getCarts = async () =>{
     try {
-        const carts = await fetch(`${baseURL}${PORT}/api/carts`, {
+        const carts = await fetch(`${serverURL}/api/carts`, {
             credentials: 'include',
             method: 'GET',
             headers:{
@@ -22,7 +21,7 @@ const getCarts = async () =>{
 //Traer un cart en particular--> GET /api/carts/:cid
 const getCartByID = async (cid) =>{
     try {
-        const cart = await fetch(`${baseURL}${PORT}/api/carts/${cid}`, {
+        const cart = await fetch(`${serverURL}/api/carts/${cid}`, {
             credentials: 'include',
             method: 'GET',
             headers:{
@@ -35,10 +34,42 @@ const getCartByID = async (cid) =>{
     }
 }
 
+//Traer un cart en particular--> GET /api/carts/tickets¨
+const getTickets = async () =>{
+    try {
+        const tickets = await fetch(`${serverURL}/api/carts/tickets`, {
+            credentials: 'include',
+            method: 'GET',
+            headers:{
+                    'Content-Type': 'application/json',
+                    }
+        })
+        return tickets;
+    } catch (error) {
+        return error
+    }
+}
+
+//Traer un cart en particular--> GET /api/carts/tickets/:email¨
+const getTicketsByEmail = async (email) =>{
+    try {
+        const tickets = await fetch(`${serverURL}/api/carts/tickets/${email}`, {
+            credentials: 'include',
+            method: 'GET',
+            headers:{
+                    'Content-Type': 'application/json',
+                    }
+        })
+        return tickets;
+    } catch (error) {
+        return error
+    }
+}
+
 //Crear un nuevo carrito--> POST /api/carts
 const createNewCart = async () =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts`, {
+        const response = await fetch(`${serverURL}/api/carts`, {
             credentials: 'include',
             method: 'POST',
             headers:{
@@ -54,7 +85,7 @@ const createNewCart = async () =>{
 //Agregar un producto a carrito--> POST /api/carts/:cid/products/:pid
 const addProductToCart = async (cid, pid, quantity=1) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts/${cid}/products/${pid}`, {
+        const response = await fetch(`${serverURL}/api/carts/${cid}/products/${pid}`, {
             credentials: 'include',
             method: 'POST',
             headers:{
@@ -72,7 +103,7 @@ const addProductToCart = async (cid, pid, quantity=1) =>{
 //Finalizar compra, generar ticket --> POST /api/carts/:cid/purchase
 const finishPurchase = async (cid) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts/${cid}/purchase`, {
+        const response = await fetch(`${serverURL}/api/carts/${cid}/purchase`, {
             credentials: 'include',
             method: 'POST',
             headers:{
@@ -89,7 +120,7 @@ const finishPurchase = async (cid) =>{
 //Actualizar carrito con arreglo--> PUT /api/carts/:cid
 const updateCartWithArray = async (cid, array) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts/${cid}`, {
+        const response = await fetch(`${serverURL}/api/carts/${cid}`, {
             credentials: 'include',
             method: 'PUT',
             headers:{
@@ -107,7 +138,7 @@ const updateCartWithArray = async (cid, array) =>{
 //Actualizar cantidad de un prod en el carrito--> PUT /api/carts/:cid/products/:pid
 const updateQuantityOfProdctInCart = async (cid, pid, quantity) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts/${cid}/products/${pid}`, {
+        const response = await fetch(`${serverURL}/api/carts/${cid}/products/${pid}`, {
             credentials: 'include',
             method: 'PUT',
             headers:{
@@ -124,7 +155,7 @@ const updateQuantityOfProdctInCart = async (cid, pid, quantity) =>{
 //Eliminar un carrito--> DELETE /api/carts/:cid
 const deleteCart = async (cid) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts/${cid}`, {
+        const response = await fetch(`${serverURL}/api/carts/${cid}`, {
                 credentials: 'include',
                 method: 'DELETE',
                 headers:{
@@ -141,7 +172,7 @@ const deleteCart = async (cid) =>{
 //Eliminar un producto de un carrito--> DELETE /api/carts/:cid/products/:pid
 const deleteProductFromCart = async (cid, pid) =>{
     try {
-        const response = await fetch(`${baseURL}${PORT}/api/carts/${cid}/products/${pid}`, {
+        const response = await fetch(`${serverURL}/api/carts/${cid}/products/${pid}`, {
                 credentials: 'include',
                 method: 'DELETE',
                 headers:{
@@ -158,6 +189,8 @@ const deleteProductFromCart = async (cid, pid) =>{
 export {
     getCarts,
     getCartByID, 
+    getTickets,
+    getTicketsByEmail,
     createNewCart, 
     addProductToCart,
     finishPurchase,
