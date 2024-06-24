@@ -1,6 +1,6 @@
 import './Btn_DeleteProduct.scss'
 import React from 'react'
-import { useContext, useEffect } from 'react'
+import { useContext} from 'react'
 import Swal from 'sweetalert2'
 import { UserContext } from '../../context/UserContext/UserContext'
 import{deleteProductAdmin, deleteProductPremium } from '../../services/API/products'

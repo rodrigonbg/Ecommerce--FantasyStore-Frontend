@@ -7,19 +7,19 @@ import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import Cart_Item from '../../components/Cart_Item/Cart_Item'
 import SectionTitle from '../../components/SectionTitle/SectionTitle'
-import SingUp_form from '../../components/SingUp_form/SingUp_form'
 import LogIn_form from '../../components/LogIn_form/LogIn_form'
-import InfoUser_Card from '../../components/InfoUser_Card/InfoUser_Card'
 import SectionTitleH2 from '../../components/SectionTitleH2/SectionTitleH2'
 import { Loading } from '../../components/Loading/Loading'
 import { finishPurchase } from '../../services/API/carts'
+import Ticket from '../../components/Ticket/Ticket'
 
 
 const Checkout = () => {
     const {cart, totalPrice, totalItems} = useContext(CartContext)
-    const {user, nombre, apellido ,validActiveSession, rol, cartID} = useContext(UserContext)
+    const {user,validActiveSession, rol, cartID} = useContext(UserContext)
 
     const [idCompra, setIdCompra] =  useState(null)
+    const [ticket, setTicket] =  useState(null)
     const [loading, setLoading] = useState(false)
     
     
@@ -58,6 +58,7 @@ const Checkout = () => {
                 if(res.status === 201){
                     const ticket = await res.json() 
                     setIdCompra(ticket.code)
+                    setTicket(ticket)
                 }else{
                     const error = await res.json() 
                     Swal.fire({
@@ -98,9 +99,12 @@ const Checkout = () => {
                                 <Loading/>
                                 :
                                 <>
-                                    {idCompra?
-                                        <p>Id de compra {idCompra}{/* Aca va un componente de vista de ticket */}</p>
-                                        :
+                                    {ticket?
+                                        
+                                        <Ticket ticket={ticket}>
+                                            <h2>Gracias por su compra!!</h2>
+                                        </Ticket>
+                                                                                :
                                         <>
                                             {cart.length === 0 ?
                                                 <p>No hay poroductos en su carrito.</p>

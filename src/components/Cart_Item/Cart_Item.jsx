@@ -1,7 +1,7 @@
 import './Cart_Item.scss'
-import { CartContext } from '../../context/CartContext'
-import { useContext, useState, useEffect } from 'react'
+import {useState, useEffect } from 'react'
 import {serverURL} from '../../services/config'
+import { Link } from 'react-router-dom'
 
 const Cart_Item = (props) => {
     const [imgs, setImgs] = useState([])
@@ -27,7 +27,7 @@ const Cart_Item = (props) => {
     return (
         <div className="prodCarrito">
                 <picture>
-                    <img className="imgCarrito" src={imgs[0]} alt={props.prod.alt}/>
+                    <Link to={`/products/${props.prod._id}`}><img className="imgCarrito" src={imgs[0]} alt={props.prod.alt}/></Link>
                     {saleTag}
                 </picture>
                 <article>

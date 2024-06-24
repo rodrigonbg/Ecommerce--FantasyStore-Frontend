@@ -1,14 +1,12 @@
 import { UserContext } from '../../context/UserContext/UserContext'
 import { useContext } from 'react'
-import { useEffect } from 'react'
 
 import './InfoUser_Card.scss'
 import SectionTitleH2 from '../SectionTitleH2/SectionTitleH2'
 
 const InfoUser_Card = () => {
 
-    const {id, nombre, apellido, telefono, correo, fechaNac, edad, lastConnection, cartID, rol, documents = []} = useContext(UserContext)
-    const {validActiveSession} = useContext(UserContext)
+    const {id, nombre, apellido, correo, edad, lastConnection, cartID, rol, documents = []} = useContext(UserContext)
 
     return (
         <div className='infoUser_card'>

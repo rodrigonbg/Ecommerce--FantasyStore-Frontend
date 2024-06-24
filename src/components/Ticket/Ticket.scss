@@ -1,0 +1,61 @@
+@import "../../styles/variables";
+
+.ticketContainert{
+    margin: 10px 10%;
+    h3{
+        font-size: large;
+    }
+        
+
+    .encabezadoTicket{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .code, .purchaser, .date, .amount{
+        color:$primary-color;
+    }
+
+    .listaItems{
+        width: 100%;
+    }
+
+    .pieTicket{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        font-size: large;
+    }
+}
+
+@media (min-width:980px) { 
+    .ticketContainert{
+        margin: 10px 10%;
+        h3{
+            font-size: x-large;
+        }
+
+        .encabezadoTicket{
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .code, .purchaser, .date, .amount{
+            color:$primary-color;
+        }
+    
+        .listaItems{
+            width: 100%;
+        }
+    
+        .pieTicket{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: x-large;
+        }
+    }
+    
+
+
+}

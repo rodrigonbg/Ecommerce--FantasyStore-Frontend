@@ -7,21 +7,19 @@ import InfoUser_Card from '../../components/InfoUser_Card/InfoUser_Card'
 import SectionTitle from '../../components/SectionTitle/SectionTitle'
 import LogIn_form from '../../components/LogIn_form/LogIn_form'
 import SectionTitleH2 from '../../components/SectionTitleH2/SectionTitleH2'
-
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import UploadProduct from '../../components/UploadProduct/UploadProduct'
 import UserProducts from '../../components/UserProducts/UserProducts'
 import UploadDocuments from '../../components/UploadDocuments/UploadDocuments'
 import UserTickets from '../../components/UserTickets/UserTickets'
+import Users from '../../components/Users/Users'
   
 const Profile = () => {
-    const [checked, setChecked] = useState(false);
     const [radioValue, setRadioValue] = useState('1');
     const [option, setOption] = useState();
 
-    const {validActiveSession, user, nombre, apellido, rol, documents} = useContext(UserContext)
-    const [error, setError] = useState(null);
+    const {validActiveSession, user, nombre, apellido, rol} = useContext(UserContext)
     const [errorUser, setErrorUser] = useState(null);
     const [reload, setReload] = useState(0);
 
@@ -64,7 +62,7 @@ const Profile = () => {
                 setOption(<>
                             <UploadProduct/>                 
                             <div className='setDocsLink'>
-                                {rol == 'usuario' && <button onClick={()=>{setRadioValue('5')}} className="linkDocs">{'Ser premium'}</button>}
+                                {rol === 'usuario' && <button onClick={()=>{setRadioValue('5')}} className="linkDocs">{'Ser premium'}</button>}
                             </div>
                         </>)
                 break;
@@ -82,7 +80,7 @@ const Profile = () => {
                 break;
 
             case '6':
-                setOption(<>usuarios registrados</>)
+                setOption(<Users/>)
                 break;
 
             case '7':

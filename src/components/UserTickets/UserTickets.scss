@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .ticketsContainer{
 
     box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.15);
@@ -6,4 +8,11 @@
     padding:10px;
     margin: 40px 0;
     text-align: center;
+
+    .division{
+        border-bottom: dashed 5px rgb(50, 70, 55);
+        height: 10px;
+        border-top: solid 2px rgb(50, 70, 55);
+        margin: 60px 0
+    }
 }

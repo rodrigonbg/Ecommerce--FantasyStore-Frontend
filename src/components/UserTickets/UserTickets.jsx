@@ -4,6 +4,7 @@ import {getTicketsByEmail, getTickets} from '../../services/API/carts'
 import { UserContext } from '../../context/UserContext/UserContext'
 import {useState, useEffect, useContext} from 'react'
 import { Loading } from '../Loading/Loading'
+import Ticket from '../Ticket/Ticket'
 
 const UserTickets = () => {
     const {validActiveSession, user, nombre, apellido, rol, correo, documents} = useContext(UserContext)
@@ -48,9 +49,9 @@ const UserTickets = () => {
                             tickets.map((ticket)=>{
                                 return(
                                     <div className='ticket'>
-                                        <p>{ticket.code}</p>
+                                        <Ticket ticket={ticket} />
+                                        <div className='division'></div>
                                     </div>
-
                                 )
                             })
                         }

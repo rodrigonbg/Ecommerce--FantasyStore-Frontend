@@ -4,8 +4,12 @@ import {serverURL} from '../config'
 //Traer todos los usuarios--> GET /api/users
 const getUsers = async () =>{
     try {
-        const users = await fetch(`${serverURL}/api/users`)
-
+        const users = await fetch(`${serverURL}/api/users`, {
+            credentials: 'include',
+            headers:{
+                    'Content-Type': 'application/json',
+                    },
+        })
         return users;
     } catch (error) {
         return error

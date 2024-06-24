@@ -1,7 +1,6 @@
 import './Category_Card.scss'
 import { Link } from 'react-router-dom'
 
-
 const Category_Card = (categoria) => {
 
     return (

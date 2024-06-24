@@ -1,22 +1,23 @@
+
 @import "../../styles/variables";
 
-.cuerpoLista{
+.prodTicket{
+    
+    padding: 2% 0;
+    border-bottom: solid 1px gray;
     display: flex;
-    flex-direction: column;
-}
-
-    .prodCarrito{
-        padding: 2% 0;
-        border-bottom: solid 1px $primary-color;
-        display: flex;
-        picture{
-            width: 40%;
-            margin: 0;
-            position: relative;
-            .imgCarrito{
-                width: 100%;
-            } 
-            span#saleTag{
+    justify-content: space-between;
+    
+    .imgContainer{
+        width: auto;
+        margin: 0;
+        position: relative;
+        
+        .imgTicket{
+            width: 70%;
+        } 
+    
+        span#saleTag{
                 position: absolute;
                 font-size: medium;
                 top: 0;
@@ -27,20 +28,21 @@
                 padding: 2px;
             }
         }
-        article{
+    
+    .infoContainer{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 60%;
-            .nombreProdCarrito::before{
+            width: 100%;
+            .nombreProdTicket::before{
                 content: 'Nombre: ';
                 font-weight: 600;
             }
-            .precioProdCarrito::before{
+            .precioProdTicket::before{
                 content: 'Precio: ';
                 font-weight: 600;
             }
-            .subtotalProdCarrito::before{
+            .subtotalProdTicket::before{
                 content: 'Subtotal: ';
                 font-weight: 600;
             }
@@ -60,20 +62,17 @@
 
 @media (min-width:980px) { 
 
-    .cuerpoLista{
+    .prodTicket{
+        padding: 0.5% 0;
+        border-bottom: solid 1px gray;
+        display: flex;
 
-    }
-        .prodCarrito{
-            padding: 0.5% 0;
-            border-bottom: solid 1px $primary-color;
-            display: flex;
-            picture{
-
-                width: 14%;
-                margin: 0;
-                position: relative;
-                .imgCarrito{
-                    width: 100%;
+        .imgContainer{
+            width: auto;
+            margin: 0;
+            position: relative;
+                .imgTicket{
+                    width: 50%;
                 } 
                 span#saleTag{
                     position: absolute;
@@ -86,23 +85,23 @@
                     padding: 2px;
                 }
             }
-            article{
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
+
+        .infoContainer{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
                 align-items: center;
-                .nombreProdCarrito::before{
-                    content: '';
+                .nombreProdTicket::before{
+                    content: 'titulo: ';
                 }
-                .precioProdCarrito::before{
-                    content: '';
+
+                .precioProdTicket::before{
+                    content: 'c/u: ';
                 }
-                .subtotalProdCarrito::before{
-                    content: '';
-                }
-                .subtotalProdCarrito{
-                    margin-right: 4%;
+
+                .subtotalProdTicket{
+
                 }
                 p{
                     margin: 0;
