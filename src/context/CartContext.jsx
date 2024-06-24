@@ -21,7 +21,7 @@ export const CartContextProvider = ({children}) => {
     const [totalPrice, setTotalPrice] = useState(localStorage.getItem("totalPrice")? JSON.parse(localStorage.getItem("totalPrice")) : 0)
     const [totalItems, setTotalItems] = useState(localStorage.getItem("totalItems")? JSON.parse(localStorage.getItem("totalItems")) : 0)
 
-    const {correo, nombre, apellido, telefono, rol} = useContext(UserContext)
+    const {rol} = useContext(UserContext)
 
     const updateLocalStorage = () =>{
         let updatedCart = JSON.stringify(cart)
@@ -255,10 +255,10 @@ export const CartContextProvider = ({children}) => {
             })
         }
 
-        const item = cart.find((item) => item.product._id == pid)
+        const item = cart.find((item) => item.product._id === pid)
         const index = cart.indexOf(item)
         
-        if(index != -1){
+        if(index !== -1){
             let item = cart[index]
             let newQuantity = item.quantity + quantityToIncrease;
             const res = await updateQuantityOfProdctInCart(cid, pid, newQuantity);
@@ -311,10 +311,10 @@ export const CartContextProvider = ({children}) => {
             })
         }
 
-        const item = cart.find((item) => item.product._id == pid)
+        const item = cart.find((item) => item.product._id === pid)
         const index = cart.indexOf(item)
         
-        if(index != -1){
+        if(index !== -1){
             let item = cart[index]
             let newQuantity = item.quantity - quantityToDecrease;
 

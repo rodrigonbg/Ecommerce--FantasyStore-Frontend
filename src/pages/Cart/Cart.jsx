@@ -17,7 +17,7 @@ import { Loading } from '../../components/Loading/Loading'
 
 const Cart = () => {
   const {user,cartID , validActiveSession} = useContext(UserContext)
-  const {loadCart, cart, updateCartWithArr, setCart, clearCart, totalPrice, totalItems} = useContext(CartContext)
+  const {loadCart, cart, updateCartWithArr, totalPrice, totalItems} = useContext(CartContext)
 
   const [errorCart, setErrorCart] = useState(null);
   const [loader, setLoader] = useState(true);
