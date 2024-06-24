@@ -85,7 +85,6 @@ const UploadDocuments = (props) => {
 
             let res = await uploadUserDocuments(id ,formData)
  
-            console.log(res)
             if(res.status === 200){
 
                 Toastify({
@@ -101,13 +100,17 @@ const UploadDocuments = (props) => {
                 props.setReload(prev=> prev +1)
 
             }else{
+                let errorMessage = 'Error desconocido';
+                try {
+                    const errorData = await res.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (e) {
+                    console.error('No se pudo parsear la respuesta como JSON:', e);
+                }
 
-                const resp = (await res.json())
-
-                console.log(resp)
                 Swal.fire({
                     icon: 'error',
-                    title: `${resp.message}`,    
+                    title: `${errorMessage}`,    
                     confirmButtonText: 'Aceptar',
                     customClass: {
                         title: "titleText",  
