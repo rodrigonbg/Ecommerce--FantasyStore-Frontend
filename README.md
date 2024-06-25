@@ -1,6 +1,6 @@
 # Fantasy-Store E-Commerce
 
-Fantasy-Store es un proyecto de comercio electrónico basado en React que proporciona una plataforma básica para mostrar productos, permitir que los usuarios se registren, agreguen productos al carrito de compras y realicen pedidos ficticios. Tanto los productos como los usuarios registrados, así como las compras ficticias realizadas por ellos, se almacenan en Firebase.
+Fantasy-Store es un proyecto de comercio electrónico basado en React que proporciona una plataforma básica para mostrar productos, permitir que los usuarios se registren, agreguen productos al carrito de compras y realicen pedidos ficticios. Tanto los productos como los usuarios registrados, así como las compras ficticias realizadas por ellos, se almacenan a través de una REST API desarrollada internamente.
 
 ## Tabla de Contenidos
 
@@ -9,19 +9,17 @@ Fantasy-Store es un proyecto de comercio electrónico basado en React que propor
 3. [Instalación](#instalación)
     - [Requisitos Previos](#requisitos-previos)
     - [Instrucciones de Instalación](#instrucciones-de-instalación)
-4. [Configuración de Firebase](#configuración-de-firebase)
-    - [Pasos para Configurar Firebase](#para-utilizar-firebase-en-esta-aplicación-sigue-estos-pasos)
+4. [Configuración de la REST API](#configuración-de-la-REST-API)
 5. [Contribuciones](#contribuciones)
 6. [Licencia](#licencia)
 
 ## Tecnologías Utilizadas
 - React
 - React Router
-- Firebase
+- REST API (Desarrollada internamente)
 - Bootstrap
 
 ## Descripción del Proyecto
-
 Fantasy-Store está diseñado para ofrecer a los usuarios una experiencia de compra fluida. Ofrece las siguientes características:
 
 - Registro de usuarios
@@ -43,14 +41,12 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado en tu sistema:
 4. Ejecuta el comando `npm run start` para iniciar la aplicación.
 5. Abre [http://localhost:3000/](http://localhost:3000/) en tu navegador web preferido.
 
-## Configuración de Firebase
+## Configuración de la REST API
 
 ### Para Utilizar Firebase en esta Aplicación, Sigue Estos Pasos:
-1. Crea una cuenta en Firebase y configura un nuevo proyecto.
-2. En la sección "Autenticación" de Firebase, habilita el proveedor de autenticación por correo electrónico y contraseña.
-3. En la sección "Firestore" de Firebase, crea una nueva base de datos y configura las reglas de seguridad para permitir acceso de lectura/escritura solo a usuarios autenticados.
-4. En la sección "Configuración del proyecto" de Firebase, haz clic en "Agregar app" y sigue las instrucciones para agregar una nueva aplicación web.
-5. Copia las credenciales de Firebase y configura las variables de entorno en el archivo `.env` de tu proyecto.
+1. Asegúrate de que la REST API esté desplegada y en funcionamiento.
+2. En el archivo config del proyecto, configura la URL base de la API.
+3. Verifica que la aplicación pueda comunicarse correctamente con la API probando el flujo de registro de usuarios, la visualización de productos, el carrito de compras y la realización de pedidos.
 
 ## Contribuciones
 ¡Agradecemos las contribuciones a Fantasy-Store! Para contribuir, sigue estos pasos:
@@ -62,4 +58,4 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado en tu sistema:
 6. Crea una solicitud de extracción para enviar tus cambios para su revisión.
 
 ## Licencia
-Este proyecto está bajo la Licencia MIT. Puedes encontrar más información en el archivo [LICENSE](LICENSE).# Front---FantasyStore
+Este proyecto está bajo la Licencia MIT.
