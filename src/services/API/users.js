@@ -61,16 +61,13 @@ const LocalLogin = async (user) =>{
 //Registro o login con el middleware de passport GITHUB--> GET /api/sessions/github
 const GithubRegisterLogin = async () =>{
     try {
-        const response = await fetch(`${serverURL}/api/sessions/github`)
-            .then(data =>  data.json())
-            .catch(error => console.error('Hubo un problema con la solicitud fetch:', error));
-        
-        if (!response.ok) {
-            throw new Error(`Hubo un problema con la solicitud fetch al iniciar sesion : ${response.statusText}`);
-        }
-        return response.json();
+        const response = await fetch(`${serverURL}/api/sessions/github`, {
+            credentials: 'include',
+        })
+
+        return response;
     } catch (error) {
-        throw error
+        return error
     }
 }
 
@@ -179,7 +176,9 @@ const deleteInactiveUsers = async () =>{
 //Cambiar rol de user a premium y viseversa--> GET /api/users/premium/:uid
 const changeUserRol = async (uid) =>{
     try {
-        const response = await fetch(`${serverURL}/api/users/premium/${uid}`)
+        const response = await fetch(`${serverURL}/api/users/premium/${uid}`, {
+            credentials: 'include',    
+        })
             
         return response;
     } catch (error) {
