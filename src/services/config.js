@@ -1,2 +1,2 @@
-const serverURL = `https://ec-fantasystore-backend.up.railway.app`
+const serverURL = `https://ecommerce-fantasystore-backend.onrender.com`
 export {serverURL}
