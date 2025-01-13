@@ -40,13 +40,7 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado en tu sistema:
 3. Ejecuta el comando `npm install` para instalar las dependencias.
 4. Ejecuta el comando `npm run start` para iniciar la aplicación.
 5. Abre [http://localhost:3000/](http://localhost:3000/) en tu navegador web preferido.
-
-## Configuración de la REST API
-
-### Para Utilizar Firebase en esta Aplicación, Sigue Estos Pasos:
-1. Asegúrate de que la REST API esté desplegada y en funcionamiento.
-2. En el archivo config del proyecto, configura la URL base de la API.
-3. Verifica que la aplicación pueda comunicarse correctamente con la API probando el flujo de registro de usuarios, la visualización de productos, el carrito de compras y la realización de pedidos.
+Para que se conecte al backendd correctamente se debe tener el servidor funionanddo en el puerto 8080. También es posible cambiar la direccion url del servidor en src/services/API/config.js
 
 ## Contribuciones
 ¡Agradecemos las contribuciones a Fantasy-Store! Para contribuir, sigue estos pasos:
