@@ -1,2 +1,2 @@
-const serverURL = `https://ecommerce-fantasystore-backend.onrender.com`
+const serverURL = `http://localhost:8080`
 export {serverURL}
